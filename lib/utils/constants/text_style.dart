@@ -106,3 +106,79 @@ class TextStyleConstants {
     fontSize: 16,
   );
 }
+
+
+/*
+textTheme: const TextTheme(
+      displayLarge: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+      ),
+      displayMedium: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+      ),
+      displaySmall: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+      ),
+      headlineLarge: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w600,
+      ),
+      headlineMedium: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w600,
+      ),
+      headlineSmall: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w600,
+      ),
+      titleLarge: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w600,
+        fontSize: 24,
+      ),
+      titleMedium: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+      ),
+      titleSmall: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+      ),
+      bodyLarge: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+        fontSize: 28,
+      ),
+      bodyMedium: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+        fontSize: 18,
+      ),
+      bodySmall: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+        fontSize: 16,
+      ),
+      labelLarge: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
+      labelMedium: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+      ),
+      labelSmall: TextStyle(
+        color: ColorConstants.secondaryColor,
+        fontFamily: 'Poppins',
+      ),
+    ),
+*/

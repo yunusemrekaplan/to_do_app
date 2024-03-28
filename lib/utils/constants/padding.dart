@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PaddingConstants {
+  static const EdgeInsets all24 = EdgeInsets.all(24.0);
   static const EdgeInsets all16 = EdgeInsets.all(16.0);
   static const EdgeInsets all8 = EdgeInsets.all(8.0);
+  static const EdgeInsets all4 = EdgeInsets.all(4.0);
   static const EdgeInsets horizontal16 = EdgeInsets.symmetric(horizontal: 16.0);
   static const EdgeInsets horizontal8 = EdgeInsets.symmetric(horizontal: 8.0);
   static const EdgeInsets vertical16 = EdgeInsets.symmetric(vertical: 16.0);
@@ -19,6 +21,12 @@ class PaddingConstants {
 
   static const EdgeInsets topLeftRight16 = EdgeInsets.only(
     top: 16.0,
+    left: 16.0,
+    right: 16.0,
+  );
+
+  static const EdgeInsets bottomLeftRight16 = EdgeInsets.only(
+    bottom: 16.0,
     left: 16.0,
     right: 16.0,
   );

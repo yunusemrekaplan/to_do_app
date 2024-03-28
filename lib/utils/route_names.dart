@@ -1,6 +1,20 @@
-class RouteNames {
-  static const String splash = '/';
-  static const String home = '/home';
-  static const String login = '/login';
-  static const String register = '/register';
+enum RouteName { initial, splash, home, login, register, addTask }
+
+extension RouteNamesExtension on RouteName {
+  String get name {
+    switch (this) {
+      case RouteName.initial:
+        return '/initial';
+      case RouteName.splash:
+        return '/splash';
+      case RouteName.home:
+        return '/home';
+      case RouteName.login:
+        return '/login';
+      case RouteName.register:
+        return '/register';
+      case RouteName.addTask:
+        return '/addTask';
+    }
+  }
 }
