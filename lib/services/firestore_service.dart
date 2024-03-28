@@ -11,7 +11,21 @@ class FirestoreService {
 
   FirestoreService._internal();
 
-  final FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  Future<DocumentReference?> createDocument({
+    required String path,
+  }) async {
+    DocumentReference? docRef;
+
+    try {
+      docRef = _db.collection(path).doc();
+    } on Exception catch (e) {
+      log('FirestoreService.createDocument: $e');
+    }
+
+    return docRef;
+  }
 
   Future<bool> addDocument({
     required String collection,
@@ -20,7 +34,7 @@ class FirestoreService {
   }) async {
     bool success = false;
     try {
-      final collectionRef = db.collection(collection);
+      final collectionRef = _db.collection(collection);
       final docRef = collectionRef.doc(uid);
       await docRef.set(data);
       success = true;
@@ -35,7 +49,7 @@ class FirestoreService {
   }) async {
     List<Map<String, dynamic>>? data;
     try {
-      final collectionRef = db.collection(collection);
+      final collectionRef = _db.collection(collection);
       final querySnapshot = await collectionRef.get();
       data = querySnapshot.docs.map((doc) => doc.data()).toList();
     } on Exception catch (e) {
@@ -50,7 +64,7 @@ class FirestoreService {
   }) async {
     Map<String, dynamic>? data;
     try {
-      final collectionRef = db.collection(collection);
+      final collectionRef = _db.collection(collection);
       final docSnapshot = await collectionRef.doc(uid).get();
       data = docSnapshot.data();
     } on Exception catch (e) {
@@ -66,7 +80,7 @@ class FirestoreService {
   }) async {
     bool success = false;
     try {
-      final collectionRef = db.collection(collection);
+      final collectionRef = _db.collection(collection);
       await collectionRef.doc(uid).update(data);
       success = true;
     } on Exception catch (e) {
@@ -81,7 +95,7 @@ class FirestoreService {
   }) async {
     bool success = false;
     try {
-      final collectionRef = db.collection(collection);
+      final collectionRef = _db.collection(collection);
       await collectionRef.doc(uid).delete();
       success = true;
     } on Exception catch (e) {

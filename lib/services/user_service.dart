@@ -45,6 +45,7 @@ class UserService {
 
     if (user != null) {
       UserModel.currentUser = UserModel.fromJson(user);
+      await _localStorage.write(key: 'userUid', value: user['userUid']);
     } else {
       result.code = '401';
       result.errorMessage = 'User not found';
@@ -75,7 +76,7 @@ class UserService {
     AuthResult result,
     UserModel userModel,
   ) async {
-    userModel.userUid = result.userUid;
+    userModel.setUserUid = result.userUid;
     bool success = await _firestoreService.addDocument(
       collection: 'users',
       uid: result.userUid!,
@@ -84,9 +85,25 @@ class UserService {
 
     if (success) {
       UserModel.currentUser = userModel;
+      _localStorage.write(key: 'userUid', value: userModel.userUid!);
     } else {
       result.code = '401';
       result.errorMessage = 'User not created';
+    }
+  }
+
+  Future<bool> getUserByIdAndSetAsCurrentUser(String userId) async {
+    final user = await _firestoreService.getDocumentById(
+      collection: 'users',
+      uid: userId,
+    );
+
+    if (user != null) {
+      UserModel.currentUser = UserModel.fromJson(user);
+      _localStorage.write(key: 'userUid', value: user['userUid']);
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -94,5 +111,6 @@ class UserService {
     await _authService.signOut();
     await _localStorage.delete(key: 'token');
     await _localStorage.delete(key: 'refreshToken');
+    await _localStorage.delete(key: 'userUid');
   }
 }
