@@ -58,7 +58,7 @@ class RegisterController extends GetxController {
 
   void handleRegistrationResult(AuthResult result) {
     if (result.code == '200') {
-      Get.offAllNamed(RouteNames.home);
+      Get.offAllNamed(RouteName.home.name);
     } else {
       showErrorSnackbar(result.errorMessage!);
     }

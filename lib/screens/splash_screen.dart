@@ -80,16 +80,16 @@ class SplashScreen extends StatelessWidget {
   Column _buildButtons() {
     return Column(
       children: [
-        TextButton(
+        ElevatedButton(
           onPressed: () {
-            Get.offAllNamed(RouteNames.register);
+            Get.offAllNamed(RouteName.register.name);
           },
           child: const Text('Start'),
         ),
         const CustomDivider(),
-        TextButton(
+        ElevatedButton(
           onPressed: () {
-            Get.offAllNamed(RouteNames.login);
+            Get.offAllNamed(RouteName.login.name);
           },
           child: const Text('Already have an account? Log in'),
         ),

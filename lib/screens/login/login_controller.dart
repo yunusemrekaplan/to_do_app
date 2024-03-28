@@ -46,7 +46,7 @@ class LoginController extends GetxController {
 
   void handleLoginResult(AuthResult result) {
     if (result.code == '200') {
-      Get.offNamed(RouteNames.home);
+      Get.offNamed(RouteName.home.name);
     } else {
       showErrorSnackbar(result.errorMessage!);
     }

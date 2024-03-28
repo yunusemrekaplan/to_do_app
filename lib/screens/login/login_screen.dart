@@ -91,13 +91,13 @@ class LoginScreen extends StatelessWidget {
                 CustomTextFormField(
                   controller: controller.emailController,
                   hintText: 'Email',
-                  validator: FormValidator.validateEmail,
+                  validator: CustomValidator().validateEmail,
                 ),
                 Obx(
                   () => CustomTextFormField(
                     controller: controller.passwordController,
                     hintText: 'Password',
-                    validator: FormValidator.validatePassword,
+                    validator: CustomValidator().validatePassword,
                     isObscureText: true,
                     toggleVisibility: controller.togglePasswordVisibility,
                     isVisible: controller.isPasswordVisible,
@@ -117,11 +117,11 @@ class LoginScreen extends StatelessWidget {
       children: [
         Obx(
           () => controller.isLoading
-              ? TextButton(
+              ? ElevatedButton(
                   onPressed: () {},
                   child: const CircularProgressIndicator(),
                 )
-              : _buildTextButton(
+              : _buildElevatedButton(
                   'Log in',
                   onPressed: controller.isLoading ? null : controller.submit,
                 ),
@@ -130,7 +130,7 @@ class LoginScreen extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: _buildTextButton(
+              child: _buildElevatedButton(
                 'Forgot Password?',
                 onPressed: () {
                   if (controller.isLoading) return;
@@ -139,7 +139,7 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             Expanded(
-                child: _buildTextButton(
+                child: _buildElevatedButton(
               'Google',
               onPressed: () {
                 if (controller.isLoading) return;
@@ -148,19 +148,19 @@ class LoginScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        _buildTextButton(
+        _buildElevatedButton(
           'New User? Sign Up',
           onPressed: () {
             if (controller.isLoading) return;
-            Get.offAllNamed(RouteNames.register);
+            Get.offAllNamed(RouteName.register.name);
           },
         ),
       ],
     );
   }
 
-  TextButton _buildTextButton(String text, {Function()? onPressed}) {
-    return TextButton(
+  ElevatedButton _buildElevatedButton(String text, {Function()? onPressed}) {
+    return ElevatedButton(
       onPressed: onPressed,
       child: Text(text),
     );

@@ -68,18 +68,18 @@ class RegisterScreen extends StatelessWidget {
                 CustomTextFormField(
                   controller: controller.fullNameController,
                   hintText: 'Full Name',
-                  validator: FormValidator.validateFullName,
+                  validator: CustomValidator().validateFullName,
                 ),
                 CustomTextFormField(
                   controller: controller.emailController,
                   hintText: 'Email',
-                  validator: FormValidator.validateEmail,
+                  validator: CustomValidator().validateEmail,
                 ),
                 Obx(
                   () => CustomTextFormField(
                     controller: controller.passwordController,
                     hintText: 'Password',
-                    validator: FormValidator.validatePassword,
+                    validator: CustomValidator().validatePassword,
                     isObscureText: true,
                     toggleVisibility: controller.togglePasswordVisibility,
                     isVisible: controller.isPasswordVisible,
@@ -90,7 +90,7 @@ class RegisterScreen extends StatelessWidget {
                     controller: controller.confirmPasswordController,
                     confirmPasswordController: controller.passwordController,
                     hintText: 'Confirm Password',
-                    validator: FormValidator.validateConfirmPassword,
+                    validator: CustomValidator().validateConfirmPassword,
                     isObscureText: true,
                     toggleVisibility:
                         controller.toggleConfirmPasswordVisibility,
@@ -109,7 +109,7 @@ class RegisterScreen extends StatelessWidget {
     return Column(
       children: [
         Obx(
-          () => TextButton(
+          () => ElevatedButton(
             onPressed: controller.isLoading ? () {} : controller.submit,
             child: controller.isLoading
                 ? const CircularProgressIndicator()
@@ -117,10 +117,10 @@ class RegisterScreen extends StatelessWidget {
           ),
         ),
         const CustomDivider(),
-        TextButton(
+        ElevatedButton(
           onPressed: () {
             if (controller.isLoading) return;
-            Get.offNamed(RouteNames.login);
+            Get.offNamed(RouteName.login.name);
           },
           child: const Text('Already have an account? Log in'),
         ),
