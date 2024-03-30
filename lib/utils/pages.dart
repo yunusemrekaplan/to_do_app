@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/add_task/add_task_screen.dart';
-import '../screens/home_screen.dart';
+import '../screens/home/home_screen.dart';
 import '../screens/initializer_screen.dart';
 import '../screens/login/login_screen.dart';
 import '../screens/register/register_screen.dart';

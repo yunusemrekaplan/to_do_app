@@ -26,9 +26,7 @@ class TaskRepository {
   }
 
   Future<List<TaskModel>> getTasks() async {
-    List<TaskModel> newTasks = await _taskService.getTasks();
-    _tasks = newTasks;
-
-    return newTasks;
+    _tasks = await _taskService.getTasks();
+    return _tasks;
   }
 }
