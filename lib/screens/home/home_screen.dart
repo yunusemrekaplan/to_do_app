@@ -3,84 +3,37 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/priority.dart';
-import '../models/tag_model.dart';
-import '../models/task_model.dart';
-import '../utils/constants/color.dart';
-import '../utils/constants/padding.dart';
-import '../utils/constants/text_style.dart';
-import '../utils/route_names.dart';
+import '../../models/task_model.dart';
+import '../../utils/constants/color.dart';
+import '../../utils/constants/padding.dart';
+import '../../utils/constants/text_style.dart';
+import '../../utils/route_names.dart';
+import 'home_controller.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  List<TaskModel> tasks = [
-    TaskModel(
-      title: 'Task 1',
-      description: 'Description 1',
-      createdDate: DateTime.now(),
-      date: DateTime.tryParse('2023-11-16')!,
-      tags: [
-        TagModel(name: 'tag1111'),
-        TagModel(name: 'tag2'),
-        TagModel(name: 'tag3'),
-        TagModel(name: 'tag4'),
-        TagModel(name: 'tag5'),
-        TagModel(name: 'tag6'),
-      ],
-      priority: Priority.high,
-    ),
-    TaskModel(
-      title: 'Task 2',
-      description: 'Description 2',
-      createdDate: DateTime.now(),
-      date: DateTime.now(),
-      tags: [TagModel(name: 'tag1'), TagModel(name: 'tag2')],
-      priority: Priority.high,
-    ),
-    TaskModel(
-      title: 'Task 3',
-      description: 'Description 3',
-      createdDate: DateTime.now(),
-      date: DateTime.now(),
-      tags: [TagModel(name: 'tag1'), TagModel(name: 'tag2')],
-      priority: Priority.high,
-    ),
-    TaskModel(
-      title: 'Task 4',
-      description: 'Description 4',
-      createdDate: DateTime.now(),
-      date: DateTime.now(),
-      tags: [TagModel(name: 'tag1'), TagModel(name: 'tag2')],
-      priority: Priority.high,
-    ),
-    TaskModel(
-      title: 'Task 5',
-      description: 'Description 5',
-      createdDate: DateTime.now(),
-      date: DateTime.now(),
-      tags: [TagModel(name: 'tag1'), TagModel(name: 'tag2')],
-      priority: Priority.high,
-    ),
-    TaskModel(
-      title: 'Task 6',
-      description: 'Description 6',
-      createdDate: DateTime.now(),
-      date: DateTime.now(),
-      tags: [TagModel(name: 'tag1'), TagModel(name: 'tag2')],
-      priority: Priority.high,
-    ),
-  ];
+  final _homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
+    return GetBuilder<HomeController>(
+      init: _homeController,
+      initState: (_) => _homeController.init(),
+      builder: (controller) {
+        return _buildScaffold(controller);
+      },
+    );
+  }
+
+  Scaffold _buildScaffold(HomeController controller) {
     return Scaffold(
       appBar: _buildAppBar(),
       floatingActionButton: _buildFloatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _buildBottomNavigationBar(),
-      body: _buildBody(context),
+      body: _buildBody(controller),
     );
   }
 
@@ -93,9 +46,7 @@ class HomeScreen extends StatelessWidget {
 
   FloatingActionButton _buildFloatingActionButton() {
     return FloatingActionButton(
-      onPressed: () {
-        Get.toNamed(RouteName.addTask.name);
-      },
+      onPressed: () => Get.toNamed(RouteName.addTask.name),
       backgroundColor: ColorConstants.onPrimary,
       foregroundColor: ColorConstants.secondaryColor,
       shape: const CircleBorder(),
@@ -127,16 +78,13 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Padding _buildBody(BuildContext context) {
+  Padding _buildBody(HomeController controller) {
     return Padding(
       padding: PaddingConstants.all16,
-      child: SingleChildScrollView(
-        child: SizedBox(
-          height: calculateAvailableScreenHeight,
-          child: TasksListView(
-            tasks: tasks,
-          ),
-        ),
+      child: Obx(
+        () => controller.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : TasksListView(controller: controller),
       ),
     );
   }
@@ -150,12 +98,15 @@ class HomeScreen extends StatelessWidget {
 }
 
 class TasksListView extends StatelessWidget {
-  TasksListView({super.key, required this.tasks});
+  const TasksListView({
+    super.key,
+    required this.controller,
+  });
 
-  late List<TaskModel> tasks;
+  final HomeController controller;
 
   void initialize() {
-    tasks.sort((a, b) {
+    controller.tasks.sort((a, b) {
       if (a.date == null || b.date == null) {
         return 0;
       } else {
@@ -168,44 +119,56 @@ class TasksListView extends StatelessWidget {
   Widget build(BuildContext context) {
     initialize();
 
-    return tasks.isEmpty
-        ? const Text('No tasks')
+    return controller.tasks.isEmpty
+        ? const Text('No tasks', style: TextStyleConstants.bodyMedium)
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Tasks'),
+              const Text('Tasks', style: TextStyleConstants.bodyMedium),
               const SizedBox(height: 16),
-              Expanded(
-                child: Container(
-                  //padding: PaddingConstants.vertical16,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: ColorConstants.secondaryColor,
+              controller.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: ColorConstants.secondaryColor,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: PaddingConstants.all16,
+                          child: Obx(() => _buildTasks()),
+                        ),
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: PaddingConstants.all16,
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: tasks.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index == tasks.length - 1) {
-                          return TaskItem(task: tasks[index]);
-                        } else {
-                          return Padding(
-                            padding: PaddingConstants.bottom16,
-                            child: TaskItem(task: tasks[index]),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: kBottomNavigationBarHeight + 16),
             ],
           );
+  }
+
+  Widget _buildTasks() {
+    return RefreshIndicator(
+      onRefresh: () async {
+        await controller.getTasks();
+      },
+      child: ListView.builder(
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        controller: controller.scrollController,
+        itemCount: controller.tasks.length,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == controller.tasks.length - 1) {
+            return TaskItem(task: controller.tasks[index]);
+          } else {
+            return Padding(
+              padding: PaddingConstants.bottom16,
+              child: TaskItem(task: controller.tasks[index]),
+            );
+          }
+        },
+      ),
+    );
   }
 }
 
@@ -270,31 +233,33 @@ class TaskItem extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
                     child: Row(
-                      children: task.tags!
-                          .map(
-                            (tag) => InkWell(
-                              onTap: () {
-                                log('${tag.name} tapped');
-                              },
-                              child: Container(
-                                height: 32,
-                                margin: PaddingConstants.right8,
-                                padding: PaddingConstants.all4,
-                                decoration: BoxDecoration(
-                                  color: ColorConstants.secondaryColor,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  tag.name,
-                                  style: TextStyleConstants.bodySmall.copyWith(
-                                    color: ColorConstants.onPrimary,
+                        children: task.tags != null
+                            ? task.tags!
+                                .map(
+                                  (tag) => InkWell(
+                                    onTap: () {
+                                      log('${tag.name} tapped');
+                                    },
+                                    child: Container(
+                                      height: 32,
+                                      margin: PaddingConstants.right8,
+                                      padding: PaddingConstants.all4,
+                                      decoration: BoxDecoration(
+                                        color: ColorConstants.secondaryColor,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        tag.name,
+                                        style: TextStyleConstants.bodySmall
+                                            .copyWith(
+                                          color: ColorConstants.onPrimary,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
+                                )
+                                .toList()
+                            : const []),
                   ),
                 ),
                 const SizedBox(width: 16),
