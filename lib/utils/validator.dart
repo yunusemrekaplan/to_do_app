@@ -84,9 +84,6 @@ class CustomValidator {
   }
 
   String? validateDate(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Date cannot be empty';
-    }
     return null;
   }
 

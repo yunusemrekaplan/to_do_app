@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 import '../models/task_model.dart';
 import '../services/task_service.dart';
 
@@ -10,7 +12,7 @@ class TaskRepository {
 
   final TaskService _taskService = TaskService();
 
-  List<TaskModel> _tasks = <TaskModel>[];
+  final RxList<TaskModel> _tasks = <TaskModel>[].obs;
 
   List<TaskModel> get tasks => _tasks;
 
@@ -26,7 +28,7 @@ class TaskRepository {
   }
 
   Future<List<TaskModel>> getTasks() async {
-    _tasks = await _taskService.getTasks();
+    _tasks.value = await _taskService.getTasks();
     return _tasks;
   }
 }

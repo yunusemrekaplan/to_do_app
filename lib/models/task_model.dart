@@ -53,8 +53,7 @@ class TaskModel {
       description: json['description'],
       notes: json['notes'],
       createdDate: DateTime.parse(json['createdDate']),
-      date:
-          json['date'].toString().isEmpty ? null : DateTime.parse(json['date']),
+      date: json['date'] == null ? null : DateTime.parse(json['date']),
       priority: json['priority'].toString().toPriority(),
       tags:
           json['tags'].map<TagModel>((tag) => TagModel.fromJson(tag)).toList(),
