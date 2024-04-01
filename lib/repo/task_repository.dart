@@ -31,4 +31,16 @@ class TaskRepository {
     _tasks.value = await _taskService.getTasks();
     return _tasks;
   }
+
+  Future<bool> updateTask(TaskModel task) async {
+    bool isUpdated = false;
+    TaskModel? updatedTask = await _taskService.updateTask(task);
+
+    if (updatedTask != null) {
+      isUpdated = true;
+      int index = _tasks.indexWhere((element) => element.uid == task.uid);
+      _tasks[index] = task;
+    }
+    return isUpdated;
+  }
 }

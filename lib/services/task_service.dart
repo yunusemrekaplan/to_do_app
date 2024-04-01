@@ -46,4 +46,16 @@ class TaskService {
     }
     return tasks;
   }
+
+  Future<TaskModel?> updateTask(TaskModel task) async {
+    TaskModel? updatedTask;
+
+    await _firestoreService.updateDocument(
+      collection: _collectionPath,
+      uid: task.uid!,
+      data: task.toJson(),
+    );
+    updatedTask = task;
+    return updatedTask;
+  }
 }
