@@ -13,10 +13,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Task Manager',
-          style: TextStyleConstants.appBarTitle,
-        ),
+        title: const Text('Task Manager'),
         centerTitle: true,
       ),
       body: _buildBody(),
@@ -101,6 +98,7 @@ class SplashScreen extends StatelessWidget {
     return Get.height -
         Get.mediaQuery.padding.bottom -
         kToolbarHeight -
-        kBottomNavigationBarHeight;
+        kBottomNavigationBarHeight -
+        16;
   }
 }

@@ -170,6 +170,7 @@ class LoginScreen extends StatelessWidget {
     return Get.height -
         Get.mediaQuery.padding.bottom -
         kToolbarHeight -
-        kBottomNavigationBarHeight;
+        kBottomNavigationBarHeight -
+        16;
   }
 }

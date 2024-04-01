@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +13,12 @@ import 'utils/theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  /*await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+  );
+  String? token = await FirebaseAppCheck.instance.getToken();
+  log('Token: $token'); */
+
   runApp(const MyApp());
 }
 
@@ -28,6 +37,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: RouteName.register.name, page: () => Pages.register),
         GetPage(name: RouteName.home.name, page: () => Pages.home),
         GetPage(name: RouteName.addTask.name, page: () => Pages.addTask),
+        GetPage(name: RouteName.detailTask.name, page: () => Pages.detailTask),
       ],
       initialRoute: RouteName.initial.name,
     );
