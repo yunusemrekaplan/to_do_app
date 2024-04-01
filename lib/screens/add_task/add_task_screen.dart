@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/models/tag_model.dart';
 
+import '../../models/attachment_model.dart';
 import '../../models/priority.dart';
 import '../../utils/constants/border_radius.dart';
 import '../../utils/constants/color.dart';
@@ -59,7 +62,7 @@ class AddTaskScreen extends StatelessWidget {
             _buildFormFields(controller),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: controller.onSaveTask,
+              onPressed: controller.isLoading ? null : controller.onSaveTask,
               child: controller.isLoading
                   ? const CircularProgressIndicator()
                   : const Text('Save Task'),
@@ -97,14 +100,8 @@ class AddTaskScreen extends StatelessWidget {
                 minLines: 3,
                 maxLines: 3,
               ),
-              _buildTitleAndTextField(
-                'Notes',
-                'Add notes... (optional)',
-                controller.taskNotesController,
-                CustomValidator().validateNotes,
-                minLines: 3,
-                maxLines: 3,
-              ),
+              _buildNotesField(controller),
+              _buildAttechmentsField(controller),
               _buildDateField(
                 'Date and Time',
                 'Date and Time (optional)',
@@ -120,6 +117,121 @@ class AddTaskScreen extends StatelessWidget {
     );
   }
 
+  Padding _buildAttechmentsField(AddTaskController controller) {
+    return Padding(
+      padding: PaddingConstants.bottom24,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Attachments', style: TextStyleConstants.bodyMedium),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: controller.attachments.isEmpty ? 50 : 100,
+            child: SingleChildScrollView(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: controller.attachments
+                          .map(
+                            (attachment) =>
+                                _buildAttachmentChip(attachment, controller),
+                          )
+                          .toList()
+                        ..add(
+                          IconButton(
+                            onPressed: () async =>
+                                await controller.pickAttachment(),
+                            icon: const Icon(Icons.attach_file),
+                          ),
+                        ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAttachmentChip(
+    AttachmentModel attachment,
+    AddTaskController controller,
+  ) {
+    return Chip(
+      label: Text(attachment.name, style: TextStyleConstants.bodySmall),
+      backgroundColor: ColorConstants.secondaryColor.withOpacity(0.1),
+      deleteIcon: const Icon(Icons.close),
+      onDeleted: () => controller.removeAttachment(attachment),
+    );
+  }
+
+  Column _buildNotesField(AddTaskController controller) {
+    return Column(
+      children: [
+        _buildTitleAndTextField(
+          'Notes',
+          'Add notes... (optional)',
+          controller.taskNotesController,
+          CustomValidator().validateNotes,
+          minLines: 1,
+          maxLines: 1,
+          onFieldSubmitted: (_) => controller.addNote(),
+        ),
+        SizedBox(
+          height: controller.notes.length * 56.0 >= 130
+              ? 130
+              : controller.notes.length * 56.0,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: controller.notes.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: PaddingConstants.bottom8,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: ColorConstants.secondaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadiusConstants.borderRadius12,
+                  ),
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 30,
+                        child: Icon(Icons.circle, size: 8),
+                      ),
+                      Expanded(
+                        child: Text(
+                          controller.notes[index],
+                          style: TextStyleConstants.bodySmall,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => controller.removeNoteAt(index),
+                        icon: const Icon(Icons.close),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        Padding(
+          padding: PaddingConstants.bottom8,
+          child: IconButton(
+            onPressed: controller.addNote,
+            icon: const Icon(Icons.add),
+          ),
+        ),
+      ],
+    );
+  }
+
   Padding _buildTitleAndTextField(
     String title,
     String hintText,
@@ -127,9 +239,12 @@ class AddTaskScreen extends StatelessWidget {
     String? Function(String?)? validator, {
     int maxLines = 1,
     int minLines = 1,
+    void Function(String)? onFieldSubmitted,
   }) {
     return Padding(
-      padding: PaddingConstants.bottom24,
+      padding: title == 'Notes'
+          ? PaddingConstants.bottom8
+          : PaddingConstants.bottom24,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -141,6 +256,7 @@ class AddTaskScreen extends StatelessWidget {
             maxLines: maxLines,
             controller: controller,
             validator: validator,
+            onFieldSubmitted: onFieldSubmitted,
             decoration: InputDecoration(
               hintText: hintText,
               border: const OutlineInputBorder(
@@ -253,7 +369,7 @@ class AddTaskScreen extends StatelessWidget {
         ),
       ),
       onChanged: controller.pickPriority,
-      child: Text(value.name, style: TextStyleConstants.bodySmall),
+      child: Text(value.value, style: TextStyleConstants.bodySmall),
     );
   }
 

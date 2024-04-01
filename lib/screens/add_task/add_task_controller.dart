@@ -1,16 +1,23 @@
+import 'dart:developer';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/attachment_model.dart';
 import '../../models/priority.dart';
 import '../../models/tag_model.dart';
 import '../../models/task_model.dart';
+import '../../models/user_model.dart';
 import '../../repo/tag_repository.dart';
 import '../../repo/task_repository.dart';
+import '../../services/attachment_service.dart';
 
 class AddTaskController extends GetxController {
   final _taskRepository = TaskRepository();
   final _tagRepository = TagRepository();
+  final _attachmentService = AttachmentService();
 
   final _task = Rx<TaskModel?>(null);
   final _isLoading = false.obs;
@@ -23,6 +30,8 @@ class AddTaskController extends GetxController {
   final _addTagController = TextEditingController();
   final _selectedPriority = Rx<Priority?>(null);
   final _selectedTags = <TagModel>[].obs;
+  final _notes = <String>[].obs;
+  final _attachments = <AttachmentModel>[].obs;
 
   DateTime? selectedDate;
 
@@ -40,6 +49,8 @@ class AddTaskController extends GetxController {
   TextEditingController get taskNotesController => _taskNotesController;
   TextEditingController get taskDateController => _taskDateController;
   TextEditingController get addTagController => _addTagController;
+  List<String> get notes => _notes;
+  List<AttachmentModel> get attachments => _attachments;
 
   set task(TaskModel? value) => _task.value = value;
   set isLoading(bool value) => _isLoading.value = value;
@@ -91,6 +102,7 @@ class AddTaskController extends GetxController {
           );
         } else {
           await addTask();
+
           Get.back();
         }
       }
@@ -99,18 +111,20 @@ class AddTaskController extends GetxController {
     }
   }
 
-  Future<void> addTask() async {
-    final task = TaskModel(
+  Future<bool> addTask() async {
+    await uploadAttachments();
+    task = TaskModel(
       title: taskTitleController.text,
       description: taskDescriptionController.text,
-      notes: taskNotesController.text,
+      notes: _notes,
       createdDate: DateTime.now(),
-      date: selectedDate,
+      dueDate: selectedDate,
       priority: selectedPriority!,
       tags: selectedTags,
+      attachments: _attachments,
     );
 
-    final isAdded = await _taskRepository.addTask(task);
+    final isAdded = await _taskRepository.addTask(task!);
 
     if (isAdded) {
       Get.back();
@@ -120,6 +134,64 @@ class AddTaskController extends GetxController {
         'Failed to add task',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
+      );
+    }
+
+    return isAdded;
+  }
+
+  void addNote() {
+    if (taskNotesController.text.isNotEmpty) {
+      _notes.insert(0, taskNotesController.text);
+      log('Notes length: ${_notes.length}');
+      taskNotesController.clear();
+    }
+  }
+
+  void removeNoteAt(int index) {
+    _notes.removeAt(index);
+  }
+
+  Future<void> pickAttachment() async {
+    log('Attachments length: ${attachments.length}');
+    final FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      final file = result.files.single;
+      final filePath = file.path!;
+      final fileName = file.name;
+
+      if (attachments.any((element) => element.name == fileName)) {
+        Get.snackbar(
+          'Error',
+          'Attachment already exists',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 1),
+        );
+      } else {
+        final attachment = AttachmentModel(
+          name: fileName,
+          path: filePath,
+          url: '${UserModel.currentUser!.userUid!}/attachments/$fileName',
+        );
+        _attachments.add(attachment);
+      }
+    }
+    log('Attachments length: ${attachments.length}');
+  }
+
+  void removeAttachment(AttachmentModel attachment) {
+    _attachments.remove(attachment);
+  }
+
+  Future<void> uploadAttachments() async {
+    log('Uploading attachments');
+
+    for (final attachment in attachments) {
+      await _attachmentService.uploadAttachment(
+        attachment.name,
+        attachment.path!,
       );
     }
   }
