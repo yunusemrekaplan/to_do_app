@@ -1,7 +1,7 @@
 enum Priority { low, medium, high }
 
 extension PriorityExtension on Priority {
-  String get name {
+  String get value {
     switch (this) {
       case Priority.low:
         return 'Low';

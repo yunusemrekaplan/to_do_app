@@ -7,6 +7,11 @@ class CustomTheme {
   static ThemeData themeData = ThemeData(
     useMaterial3: true,
     scaffoldBackgroundColor: ColorConstants.backgroundColor,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: ColorConstants.backgroundColor,
+      elevation: 0,
+      titleTextStyle: TextStyleConstants.appBarTitle,
+    ),
     iconTheme: const IconThemeData(color: ColorConstants.secondaryColor),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(

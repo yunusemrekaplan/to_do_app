@@ -1,4 +1,4 @@
-enum RouteName { initial, splash, home, login, register, addTask }
+enum RouteName { initial, splash, home, login, register, addTask, detailTask }
 
 extension RouteNamesExtension on RouteName {
   String get name {
@@ -15,6 +15,8 @@ extension RouteNamesExtension on RouteName {
         return '/register';
       case RouteName.addTask:
         return '/addTask';
+      case RouteName.detailTask:
+        return '/detailTask';
     }
   }
 }
