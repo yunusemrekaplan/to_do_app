@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
+import '../utils/constants/double.dart';
+import '../utils/constants/images.dart';
 import '../utils/constants/padding.dart';
+import '../utils/constants/string.dart';
 import '../utils/constants/text_style.dart';
-import '../utils/route_names.dart';
+import '../utils/navigator.dart';
 import '../widgets/divider.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -12,93 +13,73 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Task Manager'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text(StringConstants.appName)),
       body: _buildBody(),
     );
   }
 
-  Padding _buildBody() {
+  Widget _buildBody() {
     return Padding(
       padding: PaddingConstants.all16,
       child: SingleChildScrollView(
-        child: SizedBox(
-          height: calculateAvailableScreenHeight,
-          child: _buildSplash(),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: DoubleConstants.calculateAvailableScreenHeight,
+          ),
+          child: IntrinsicHeight(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildSplashImage(),
+                _buildSplashDescription(),
+                _buildButtons(),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Column _buildSplash() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          children: [
-            Center(
-              child: Image.asset('assets/images/splash.png'),
-            ),
-            _buildSplashDescription(),
-          ],
-        ),
-        _buildButtons(),
-      ],
+  Widget _buildSplashImage() {
+    return Center(
+      child: Image.asset(ImageConstants.splash),
     );
   }
 
-  Column _buildSplashDescription() {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: PaddingConstants.horizontal8,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Create task efficiently',
-                style: TextStyleConstants.titleLargeBold,
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Easily add, edit and delete tasks, set reminders, and organize into categories...',
-                style: TextStyleConstants.bodyMedium,
-              )
-            ],
+  Widget _buildSplashDescription() {
+    return const Padding(
+      padding: PaddingConstants.horizontal8,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            StringConstants.splashDescriptionTitle,
+            style: TextStyleConstants.titleLargeBold,
           ),
-        ),
-      ],
+          SizedBox(height: 8),
+          Text(
+            StringConstants.splashDescription,
+            style: TextStyleConstants.bodyMedium,
+          ),
+        ],
+      ),
     );
   }
 
-  Column _buildButtons() {
+  Widget _buildButtons() {
     return Column(
       children: [
         ElevatedButton(
-          onPressed: () {
-            Get.offAllNamed(RouteName.register.name);
-          },
-          child: const Text('Start'),
+          onPressed: () => CustomNavigator.goToRegisterScreen,
+          child: const Text(StringConstants.startButton),
         ),
         const CustomDivider(),
         ElevatedButton(
-          onPressed: () {
-            Get.offAllNamed(RouteName.login.name);
-          },
-          child: const Text('Already have an account? Log in'),
+          onPressed: () => CustomNavigator.goToLogInScreen,
+          child: const Text(StringConstants.loginButtonInSplash),
         ),
       ],
     );
-  }
-
-  double get calculateAvailableScreenHeight {
-    return Get.height -
-        Get.mediaQuery.padding.bottom -
-        kToolbarHeight -
-        kBottomNavigationBarHeight -
-        16;
   }
 }

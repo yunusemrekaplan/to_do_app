@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils/constants/border_radius.dart';
 import '../../utils/constants/color.dart';
+import '../../utils/constants/double.dart';
+import '../../utils/constants/images.dart';
 import '../../utils/constants/padding.dart';
+import '../../utils/constants/string.dart';
 import '../../utils/constants/text_style.dart';
-import '../../utils/route_names.dart';
 import '../../utils/validator.dart';
 import '../../widgets/divider.dart';
 import '../../widgets/text_form_field.dart';
@@ -21,30 +24,24 @@ class LoginScreen extends StatelessWidget {
       init: _loginController,
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              'Task Manager',
-              style: TextStyleConstants.appBarTitle,
-            ),
-            centerTitle: true,
-          ),
+          appBar: AppBar(title: const Text(StringConstants.appName)),
           body: _buildBody(controller),
         );
       },
     );
   }
 
-  Padding _buildBody(LoginController controller) {
+  Widget _buildBody(LoginController controller) {
     return Padding(
       padding: PaddingConstants.all16,
       child: _buildLogin(controller),
     );
   }
 
-  SingleChildScrollView _buildLogin(LoginController controller) {
+  Widget _buildLogin(LoginController controller) {
     return SingleChildScrollView(
       child: SizedBox(
-        height: calculateAvailableScreenHeight,
+        height: DoubleConstants.calculateAvailableScreenHeight,
         child: Column(
           children: [
             _buildImageContainer(),
@@ -57,46 +54,44 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Padding _buildImageContainer() {
+  Widget _buildImageContainer() {
     return Padding(
       padding: PaddingConstants.vertical16,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
           color: ColorConstants.secondaryColor.withOpacity(0.8),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadiusConstants.borderRadius12,
         ),
-        child: Image.asset('assets/images/login.png', height: 200),
+        child: Image.asset(ImageConstants.login, height: 200),
       ),
     );
   }
 
-  Expanded _buildForm(LoginController controller) {
+  Widget _buildForm(LoginController controller) {
     return Expanded(
       child: Obx(
         () => Form(
           key: controller.formKey,
-          autovalidateMode: controller.isAutoValidate
-              ? AutovalidateMode.always
-              : AutovalidateMode.disabled,
+          autovalidateMode: controller.autovalidateMode,
           child: SingleChildScrollView(
             child: Column(
               children: [
                 const SizedBox(height: 16),
                 const Text(
-                  'Log in',
+                  StringConstants.login,
                   style: TextStyleConstants.titleMediumBold,
                 ),
                 const SizedBox(height: 16),
                 CustomTextFormField(
                   controller: controller.emailController,
-                  hintText: 'Email',
+                  hintText: StringConstants.emailHintText,
                   validator: CustomValidator().validateEmail,
                 ),
                 Obx(
                   () => CustomTextFormField(
                     controller: controller.passwordController,
-                    hintText: 'Password',
+                    hintText: StringConstants.passwordHintText,
                     validator: CustomValidator().validatePassword,
                     isObscureText: true,
                     toggleVisibility: controller.togglePasswordVisibility,
@@ -112,7 +107,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Column _buildButtons(LoginController controller) {
+  Widget _buildButtons(LoginController controller) {
     return Column(
       children: [
         Obx(
@@ -122,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                   child: const CircularProgressIndicator(),
                 )
               : _buildElevatedButton(
-                  'Log in',
+                  StringConstants.loginButton,
                   onPressed: controller.isLoading ? null : controller.submit,
                 ),
         ),
@@ -131,46 +126,32 @@ class LoginScreen extends StatelessWidget {
           children: [
             Expanded(
               child: _buildElevatedButton(
-                'Forgot Password?',
-                onPressed: () {
-                  if (controller.isLoading) return;
-                },
+                StringConstants.forgotPasswordButton,
+                onPressed: () {},
               ),
             ),
             const SizedBox(width: 16),
             Expanded(
-                child: _buildElevatedButton(
-              'Google',
-              onPressed: () {
-                if (controller.isLoading) return;
-              },
-            )),
+              child: _buildElevatedButton(
+                StringConstants.googleSigninButton,
+                onPressed: () {},
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 16),
         _buildElevatedButton(
-          'New User? Sign Up',
-          onPressed: () {
-            if (controller.isLoading) return;
-            Get.offAllNamed(RouteName.register.name);
-          },
+          StringConstants.signupButtonInLogin,
+          onPressed: controller.goToSignup,
         ),
       ],
     );
   }
 
-  ElevatedButton _buildElevatedButton(String text, {Function()? onPressed}) {
+  Widget _buildElevatedButton(String text, {Function()? onPressed}) {
     return ElevatedButton(
       onPressed: onPressed,
       child: Text(text),
     );
-  }
-
-  double get calculateAvailableScreenHeight {
-    return Get.height -
-        Get.mediaQuery.padding.bottom -
-        kToolbarHeight -
-        kBottomNavigationBarHeight -
-        16;
   }
 }

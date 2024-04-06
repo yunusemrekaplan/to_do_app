@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../utils/constants/double.dart';
 import '../../utils/constants/padding.dart';
+import '../../utils/constants/string.dart';
 import '../../utils/constants/text_style.dart';
-import '../../utils/route_names.dart';
 import '../../utils/validator.dart';
 import '../../widgets/divider.dart';
 import '../../widgets/text_form_field.dart';
@@ -17,17 +18,15 @@ class RegisterScreen extends StatelessWidget {
     return GetBuilder<RegisterController>(
       init: _registerController,
       builder: (controller) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              'Sign Up',
-              style: TextStyleConstants.appBarTitle,
-            ),
-            centerTitle: true,
-          ),
-          body: _buildBody(controller),
-        );
+        return _buildScaffold(controller);
       },
+    );
+  }
+
+  Scaffold _buildScaffold(RegisterController controller) {
+    return Scaffold(
+      appBar: AppBar(title: const Text(StringConstants.appName)),
+      body: _buildBody(controller),
     );
   }
 
@@ -36,7 +35,7 @@ class RegisterScreen extends StatelessWidget {
       padding: PaddingConstants.all16,
       child: SingleChildScrollView(
         child: SizedBox(
-          height: calculateAvailableScreenHeight,
+          height: DoubleConstants.calculateAvailableScreenHeight,
           child: Column(
             children: [
               _buildForm(controller),
@@ -54,31 +53,29 @@ class RegisterScreen extends StatelessWidget {
       child: Obx(
         () => Form(
           key: controller.formKey,
-          autovalidateMode: controller.isAutoValidate
-              ? AutovalidateMode.always
-              : AutovalidateMode.disabled,
+          autovalidateMode: controller.autovalidateMode,
           child: SingleChildScrollView(
             child: Column(
               children: [
                 const Text(
-                  'Sign Up to Get Started',
+                  StringConstants.signup,
                   style: TextStyleConstants.titleMediumBold,
                 ),
                 const SizedBox(height: 16),
                 CustomTextFormField(
                   controller: controller.fullNameController,
-                  hintText: 'Full Name',
+                  hintText: StringConstants.fullNameHintText,
                   validator: CustomValidator().validateFullName,
                 ),
                 CustomTextFormField(
                   controller: controller.emailController,
-                  hintText: 'Email',
+                  hintText: StringConstants.emailHintText,
                   validator: CustomValidator().validateEmail,
                 ),
                 Obx(
                   () => CustomTextFormField(
                     controller: controller.passwordController,
-                    hintText: 'Password',
+                    hintText: StringConstants.passwordHintText,
                     validator: CustomValidator().validatePassword,
                     isObscureText: true,
                     toggleVisibility: controller.togglePasswordVisibility,
@@ -89,7 +86,7 @@ class RegisterScreen extends StatelessWidget {
                   () => CustomTextFormField(
                     controller: controller.confirmPasswordController,
                     confirmPasswordController: controller.passwordController,
-                    hintText: 'Confirm Password',
+                    hintText: StringConstants.confirmPasswordHintText,
                     validator: CustomValidator().validateConfirmPassword,
                     isObscureText: true,
                     toggleVisibility:
@@ -113,26 +110,15 @@ class RegisterScreen extends StatelessWidget {
             onPressed: controller.isLoading ? () {} : controller.submit,
             child: controller.isLoading
                 ? const CircularProgressIndicator()
-                : const Text('Sign Up'),
+                : const Text(StringConstants.signupButton),
           ),
         ),
         const CustomDivider(),
         ElevatedButton(
-          onPressed: () {
-            if (controller.isLoading) return;
-            Get.offNamed(RouteName.login.name);
-          },
-          child: const Text('Already have an account? Log in'),
+          onPressed: controller.goToLogin,
+          child: const Text(StringConstants.loginButtonInRegister),
         ),
       ],
     );
-  }
-
-  double get calculateAvailableScreenHeight {
-    return Get.height -
-        Get.mediaQuery.padding.bottom -
-        kToolbarHeight -
-        kBottomNavigationBarHeight -
-        16;
   }
 }

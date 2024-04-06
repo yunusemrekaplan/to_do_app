@@ -8,6 +8,7 @@ import '../../models/attachment_model.dart';
 import '../../models/priority.dart';
 import '../../utils/constants/border_radius.dart';
 import '../../utils/constants/color.dart';
+import '../../utils/constants/double.dart';
 import '../../utils/constants/padding.dart';
 import '../../utils/constants/text_style.dart';
 import '../../utils/route_names.dart';
@@ -46,7 +47,7 @@ class AddTaskScreen extends StatelessWidget {
     return Padding(
       padding: PaddingConstants.all16,
       child: SizedBox(
-        height: calculateAvailableScreenHeight,
+        height: DoubleConstants.calculateAvailableScreenHeight,
         child: _buildForm(controller),
       ),
     );
@@ -126,7 +127,7 @@ class AddTaskScreen extends StatelessWidget {
           const Text('Attachments', style: TextStyleConstants.bodyMedium),
           const SizedBox(height: 8),
           SizedBox(
-            height: controller.attachments.isEmpty ? 50 : 100,
+            height: controller.attachments.isEmpty ? 50 : 105,
             child: SingleChildScrollView(
               child: Row(
                 children: [
@@ -486,12 +487,5 @@ class AddTaskScreen extends StatelessWidget {
         style: TextStyleConstants.bodySmall,
       ),
     );
-  }
-
-  double get calculateAvailableScreenHeight {
-    return Get.height -
-        Get.mediaQuery.padding.bottom -
-        kToolbarHeight -
-        kBottomNavigationBarHeight;
   }
 }

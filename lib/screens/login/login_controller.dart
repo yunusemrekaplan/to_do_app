@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../models/auth_result.dart';
 import '../../services/user_service.dart';
-import '../../utils/route_names.dart';
+import '../../utils/navigator.dart';
 
 class LoginController extends GetxController {
   final _userService = UserService();
@@ -14,26 +14,30 @@ class LoginController extends GetxController {
 
   final _isLoading = false.obs;
   final _isPasswordVisible = true.obs;
-  final _isAutoValidate = false.obs;
+
+  final _autovalidateMode = AutovalidateMode.disabled.obs;
 
   bool get isLoading => _isLoading.value;
   bool get isPasswordVisible => _isPasswordVisible.value;
-  bool get isAutoValidate => _isAutoValidate.value;
+  AutovalidateMode get autovalidateMode => _autovalidateMode.value;
 
-  void togglePasswordVisibility() =>
-      _isPasswordVisible.value = !_isPasswordVisible.value;
+  void togglePasswordVisibility() {
+    _isPasswordVisible.value = !_isPasswordVisible.value;
+  }
 
-  void toggleAutoValidate() => _isAutoValidate.value = true;
+  void toggleAutoValidate() {
+    _autovalidateMode.value = AutovalidateMode.always;
+  }
 
-  void setLoading(bool value) => _isLoading.value = value;
+  set setLoading(bool value) => _isLoading.value = value;
 
   Future<void> submit() async {
-    setLoading(true);
+    setLoading = true;
     toggleAutoValidate();
     if (formKey.currentState!.validate()) {
       await loginUser();
     }
-    setLoading(false);
+    setLoading = false;
   }
 
   Future<void> loginUser() async {
@@ -45,11 +49,9 @@ class LoginController extends GetxController {
   }
 
   void handleLoginResult(AuthResult result) {
-    if (result.code == '200') {
-      Get.offNamed(RouteName.home.name);
-    } else {
-      showErrorSnackbar(result.errorMessage!);
-    }
+    result.code == '200'
+        ? CustomNavigator.goToHomeScreen()
+        : showErrorSnackbar(result.errorMessage!);
   }
 
   void showErrorSnackbar(String errorMessage) {
@@ -60,5 +62,10 @@ class LoginController extends GetxController {
       backgroundColor: Colors.red,
       duration: const Duration(milliseconds: 1400),
     );
+  }
+
+  void goToSignup() {
+    if (isLoading) return;
+    CustomNavigator.goToRegisterScreen();
   }
 }

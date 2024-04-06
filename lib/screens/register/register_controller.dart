@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../models/auth_result.dart';
 import '../../models/user_model.dart';
 import '../../services/user_service.dart';
+import '../../utils/navigator.dart';
 import '../../utils/route_names.dart';
 
 class RegisterController extends GetxController {
@@ -20,12 +21,13 @@ class RegisterController extends GetxController {
   final _isLoading = false.obs;
   final _isPasswordVisible = true.obs;
   final _isConfirmPasswordVisible = true.obs;
-  final _isAutoValidate = false.obs;
 
+  final _autovalidateMode = AutovalidateMode.disabled.obs;
+
+  bool get isLoading => _isLoading.value;
   bool get isPasswordVisible => _isPasswordVisible.value;
   bool get isConfirmPasswordVisible => _isConfirmPasswordVisible.value;
-  bool get isAutoValidate => _isAutoValidate.value;
-  bool get isLoading => _isLoading.value;
+  AutovalidateMode get autovalidateMode => _autovalidateMode.value;
 
   void togglePasswordVisibility() =>
       _isPasswordVisible.value = !_isPasswordVisible.value;
@@ -33,17 +35,18 @@ class RegisterController extends GetxController {
   void toggleConfirmPasswordVisibility() =>
       _isConfirmPasswordVisible.value = !_isConfirmPasswordVisible.value;
 
-  void toggleAutoValidate() => _isAutoValidate.value = true;
+  void toggleAutoValidate() =>
+      _autovalidateMode.value = AutovalidateMode.always;
 
-  void setLoading(bool value) => _isLoading.value = value;
+  set setLoading(bool value) => _isLoading.value = value;
 
   Future<void> submit() async {
-    setLoading(true);
+    setLoading = true;
     toggleAutoValidate();
     if (formKey.currentState!.validate()) {
       await registerUser();
     }
-    setLoading(false);
+    setLoading = false;
   }
 
   Future<void> registerUser() async {
@@ -72,5 +75,10 @@ class RegisterController extends GetxController {
       backgroundColor: Colors.red,
       duration: const Duration(milliseconds: 1400),
     );
+  }
+
+  void goToLogin() {
+    if (isLoading) return;
+    CustomNavigator.goToLogInScreen();
   }
 }

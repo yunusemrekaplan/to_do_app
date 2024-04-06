@@ -117,7 +117,7 @@ class AddTaskController extends GetxController {
       title: taskTitleController.text,
       description: taskDescriptionController.text,
       notes: _notes,
-      createdDate: DateTime.now(),
+      createdAt: DateTime.now(),
       dueDate: selectedDate,
       priority: selectedPriority!,
       tags: selectedTags,
