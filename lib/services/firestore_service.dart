@@ -49,6 +49,7 @@ class FirestoreService {
   }) async {
     List<Map<String, dynamic>>? data;
     try {
+      log(collection);
       final collectionRef = _db.collection(collection);
       final querySnapshot = await collectionRef.get();
       data = querySnapshot.docs.map((doc) => doc.data()).toList();
@@ -69,6 +70,23 @@ class FirestoreService {
       data = docSnapshot.data();
     } on Exception catch (e) {
       log('FirestoreService.getDocumentById: $e');
+    }
+    return data;
+  }
+
+  Future<List<Map<String, dynamic>>?> getFilteredDocuments({
+    required String collection,
+    required String field,
+    required dynamic value,
+  }) async {
+    List<Map<String, dynamic>>? data;
+    try {
+      final collectionRef = _db.collection(collection);
+      final querySnapshot =
+          await collectionRef.where(field, isEqualTo: value).get();
+      data = querySnapshot.docs.map((doc) => doc.data()).toList();
+    } on Exception catch (e) {
+      log('FirestoreService.getFilteredDocuments: $e');
     }
     return data;
   }

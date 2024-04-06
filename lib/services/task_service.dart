@@ -13,18 +13,16 @@ class TaskService {
 
   final _firestoreService = FirestoreService();
 
-  final _collectionPath = 'users/${UserModel.currentUser!.userUid}/tasks';
-
   Future<TaskModel?> addTask(TaskModel task) async {
     TaskModel? newTask;
 
     final docRef = await _firestoreService.createDocument(
-      path: _collectionPath,
+      path: 'users/${UserModel.currentUser!.userUid}/tasks',
     );
     if (docRef != null) {
       task.setUid = docRef.id;
       await _firestoreService.addDocument(
-        collection: _collectionPath,
+        collection: 'users/${UserModel.currentUser!.userUid}/tasks',
         uid: task.uid!,
         data: task.toJson(),
       );
@@ -38,7 +36,8 @@ class TaskService {
   Future<List<TaskModel>> getTasks() async {
     List<TaskModel> tasks = <TaskModel>[];
 
-    final docs = await _firestoreService.getAll(collection: _collectionPath);
+    final docs = await _firestoreService.getAll(
+        collection: 'users/${UserModel.currentUser!.userUid}/tasks');
     if (docs != null) {
       tasks = docs.map((doc) => TaskModel.fromJson(doc)).toList();
     } else {
@@ -51,7 +50,7 @@ class TaskService {
     TaskModel? updatedTask;
 
     await _firestoreService.updateDocument(
-      collection: _collectionPath,
+      collection: 'users/${UserModel.currentUser!.userUid}/tasks',
       uid: task.uid!,
       data: task.toJson(),
     );

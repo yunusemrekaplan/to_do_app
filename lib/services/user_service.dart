@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../models/auth_result.dart';
 import '../models/user_model.dart';
 import 'firestore_service.dart';
@@ -25,9 +27,9 @@ class UserService {
     );
     if (result.code == '200') {
       await _localStorage.write(key: 'token', value: result.token!);
-
+      log(result.userUid!);
       try {
-        await getUserAndSetAsCurrentUser(result);
+        await getUserByIdAndSetAsCurrentUser(result.userUid!);
       } on Exception catch (e) {
         result.code = '401';
         result.errorMessage = e.toString();
@@ -35,21 +37,6 @@ class UserService {
     }
 
     return result;
-  }
-
-  Future<void> getUserAndSetAsCurrentUser(AuthResult result) async {
-    final user = await _firestoreService.getDocumentById(
-      collection: 'users',
-      uid: result.userUid!,
-    );
-
-    if (user != null) {
-      UserModel.currentUser = UserModel.fromJson(user);
-      await _localStorage.write(key: 'userUid', value: user['userUid']);
-    } else {
-      result.code = '401';
-      result.errorMessage = 'User not found';
-    }
   }
 
   Future<AuthResult> registerWithEmailAndPassword(UserModel userModel) async {
@@ -98,9 +85,12 @@ class UserService {
       uid: userId,
     );
 
+    log(user.toString());
+
     if (user != null) {
       UserModel.currentUser = UserModel.fromJson(user);
-      _localStorage.write(key: 'userUid', value: user['userUid']);
+      log(UserModel.currentUser!.toJson().toString());
+      await _localStorage.write(key: 'userUid', value: user['userUid']);
       return true;
     } else {
       return false;
@@ -108,6 +98,7 @@ class UserService {
   }
 
   Future<void> signOut() async {
+    UserModel.currentUser = null;
     await _authService.signOut();
     await _localStorage.delete(key: 'token');
     await _localStorage.delete(key: 'refreshToken');
