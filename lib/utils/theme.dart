@@ -11,6 +11,7 @@ class CustomTheme {
       backgroundColor: ColorConstants.backgroundColor,
       elevation: 0,
       titleTextStyle: TextStyleConstants.appBarTitle,
+      centerTitle: true,
     ),
     iconTheme: const IconThemeData(color: ColorConstants.secondaryColor),
     elevatedButtonTheme: ElevatedButtonThemeData(

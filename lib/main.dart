@@ -11,14 +11,8 @@ import 'utils/route_names.dart';
 import 'utils/theme.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  /*await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug,
-  );
-  String? token = await FirebaseAppCheck.instance.getToken();
-  log('Token: $token'); */
-
+  await AppStart.init();
+  //LocalStorage().delete(key: 'isFirstTime');
   runApp(const MyApp());
 }
 
@@ -38,8 +32,24 @@ class MyApp extends StatelessWidget {
         GetPage(name: RouteName.home.name, page: () => Pages.home),
         GetPage(name: RouteName.addTask.name, page: () => Pages.addTask),
         GetPage(name: RouteName.detailTask.name, page: () => Pages.detailTask),
+        GetPage(name: RouteName.profile.name, page: () => Pages.profile)
       ],
       initialRoute: RouteName.initial.name,
     );
+  }
+}
+
+class AppStart {
+  static Future<void> init() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await FirebaseAppCheck.instance.activate(
+      androidProvider: AndroidProvider.debug,
+    );
+
+    String? token = await FirebaseAppCheck.instance.getToken();
+    log(token!);
   }
 }
