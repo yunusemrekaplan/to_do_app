@@ -7,7 +7,7 @@ class TaskModel {
   String _title;
   String? _description;
   List<String> _notes = <String>[];
-  late DateTime _createdDate;
+  late DateTime _createdAt;
   DateTime? _dueDate;
   Priority _priority;
   List<TagModel> _tags = <TagModel>[];
@@ -19,7 +19,7 @@ class TaskModel {
     required String title,
     String? description,
     List<String> notes = const <String>[],
-    required DateTime createdDate,
+    required DateTime createdAt,
     DateTime? dueDate,
     required Priority priority,
     List<TagModel> tags = const <TagModel>[],
@@ -29,7 +29,7 @@ class TaskModel {
         _title = title,
         _description = description,
         _notes = notes,
-        _createdDate = createdDate,
+        _createdAt = createdAt,
         _dueDate = dueDate,
         _priority = priority,
         _tags = tags,
@@ -40,7 +40,7 @@ class TaskModel {
   String get title => _title;
   String? get description => _description;
   List<String>? get notes => _notes;
-  DateTime get createdDate => _createdDate;
+  DateTime get createdAt => _createdAt;
   DateTime? get dueDate => _dueDate;
   Priority get priority => _priority;
   List<TagModel>? get tags => _tags;
@@ -64,7 +64,7 @@ class TaskModel {
       title: json['title'],
       description: json['description'],
       notes: json['notes'].map<String>((note) => note.toString()).toList(),
-      createdDate: DateTime.parse(json['createdDate']),
+      createdAt: DateTime.parse(json['createdAt']),
       dueDate: json['dueDate'] == null ? null : DateTime.parse(json['dueDate']),
       priority: json['priority'].toString().toPriority(),
       tags:
@@ -83,8 +83,8 @@ class TaskModel {
       'title': _title,
       'description': _description,
       'notes': _notes,
-      'createdDate': _createdDate.toIso8601String(),
-      'date': _dueDate?.toIso8601String(),
+      'createdAt': _createdAt.toIso8601String(),
+      'dueDate': _dueDate?.toIso8601String(),
       'priority': _priority.value,
       'tags': _tags.map((tag) => tag.toJson()).toList(),
       'attachments':
