@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
       init: _loginController,
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(title: const Text(StringConstants.appName)),
+          appBar: AppBar(title: const Text(StringConstant.appName)),
           body: _buildBody(controller),
         );
       },
@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildBody(LoginController controller) {
     return Padding(
-      padding: PaddingConstants.all16,
+      padding: PaddingConstant.all16,
       child: _buildLogin(controller),
     );
   }
@@ -41,7 +41,7 @@ class LoginScreen extends StatelessWidget {
   Widget _buildLogin(LoginController controller) {
     return SingleChildScrollView(
       child: SizedBox(
-        height: DoubleConstants.calculateAvailableScreenHeight,
+        height: DoubleConstant.calculateAvailableScreenHeight,
         child: Column(
           children: [
             _buildImageContainer(),
@@ -56,14 +56,14 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildImageContainer() {
     return Padding(
-      padding: PaddingConstants.vertical16,
+      padding: PaddingConstant.vertical16,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: ColorConstants.secondaryColor.withOpacity(0.8),
-          borderRadius: BorderRadiusConstants.borderRadius12,
+          color: ColorConstant.secondaryColor.withOpacity(0.8),
+          borderRadius: BorderRadiusConstant.borderRadius12,
         ),
-        child: Image.asset(ImageConstants.login, height: 200),
+        child: Image.asset(ImageConstant.login, height: 200),
       ),
     );
   }
@@ -79,19 +79,19 @@ class LoginScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 16),
                 const Text(
-                  StringConstants.login,
-                  style: TextStyleConstants.titleMediumBold,
+                  StringConstant.login,
+                  style: TextStyleConstant.titleMediumBold,
                 ),
                 const SizedBox(height: 16),
                 CustomTextFormField(
                   controller: controller.emailController,
-                  hintText: StringConstants.emailHintText,
+                  hintText: StringConstant.emailHintText,
                   validator: CustomValidator().validateEmail,
                 ),
                 Obx(
                   () => CustomTextFormField(
                     controller: controller.passwordController,
-                    hintText: StringConstants.passwordHintText,
+                    hintText: StringConstant.passwordHintText,
                     validator: CustomValidator().validatePassword,
                     isObscureText: true,
                     toggleVisibility: controller.togglePasswordVisibility,
@@ -117,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                   child: const CircularProgressIndicator(),
                 )
               : _buildElevatedButton(
-                  StringConstants.loginButton,
+                  StringConstant.loginButton,
                   onPressed: controller.isLoading ? null : controller.submit,
                 ),
         ),
@@ -126,14 +126,14 @@ class LoginScreen extends StatelessWidget {
           children: [
             Expanded(
               child: _buildElevatedButton(
-                StringConstants.forgotPasswordButton,
+                StringConstant.forgotPasswordButton,
                 onPressed: () {},
               ),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: _buildElevatedButton(
-                StringConstants.googleSigninButton,
+                StringConstant.googleSigninButton,
                 onPressed: () {},
               ),
             ),
@@ -141,7 +141,7 @@ class LoginScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         _buildElevatedButton(
-          StringConstants.signupButtonInLogin,
+          StringConstant.signupButtonInLogin,
           onPressed: controller.goToSignup,
         ),
       ],

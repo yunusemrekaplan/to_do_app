@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 
 import '../models/task_model.dart';
 import '../screens/home/home_controller.dart';
-import '../utils/constants/color.dart';
 import '../utils/constants/padding.dart';
-import '../utils/constants/text_style.dart';
 import 'task_item.dart';
 
 class TasksListView extends StatelessWidget {
@@ -20,36 +18,24 @@ class TasksListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return tasks.isEmpty
-        ? const Text('No tasks', style: TextStyleConstants.bodyMedium)
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Tasks', style: TextStyleConstants.bodyMedium),
-              const SizedBox(height: 16),
-              controller.isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: ColorConstants.secondaryColor,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: PaddingConstants.all16,
-                          child: Obx(() => _buildTasks()),
-                        ),
-                      ),
-                    ),
-            ],
-          );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        controller.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Expanded(
+                child: Obx(
+                  () => _buildTasks(),
+                ),
+              ),
+      ],
+    );
   }
 
   Widget _buildTasks() {
     return RefreshIndicator(
       onRefresh: () async {
+        controller.searchTextController.clear();
         await controller.getTasks();
       },
       child: ListView.builder(
@@ -63,7 +49,7 @@ class TasksListView extends StatelessWidget {
             return TaskItem(task: tasks[index]);
           } else {
             return Padding(
-              padding: PaddingConstants.bottom16,
+              padding: PaddingConstant.bottom16,
               child: TaskItem(task: tasks[index]),
             );
           }

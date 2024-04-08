@@ -45,9 +45,9 @@ class AddTaskScreen extends StatelessWidget {
 
   Padding _buildBody(AddTaskController controller) {
     return Padding(
-      padding: PaddingConstants.all16,
+      padding: PaddingConstant.all16,
       child: SizedBox(
-        height: DoubleConstants.calculateAvailableScreenHeight,
+        height: DoubleConstant.calculateAvailableScreenHeight,
         child: _buildForm(controller),
       ),
     );
@@ -78,11 +78,11 @@ class AddTaskScreen extends StatelessWidget {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: ColorConstants.primaryColor,
-          borderRadius: BorderRadiusConstants.borderRadius12,
-          border: Border.all(color: ColorConstants.secondaryColor),
+          color: ColorConstant.primaryColor,
+          borderRadius: BorderRadiusConstant.borderRadius12,
+          border: Border.all(color: ColorConstant.secondaryColor),
         ),
-        padding: PaddingConstants.all16,
+        padding: PaddingConstant.all16,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
@@ -120,11 +120,11 @@ class AddTaskScreen extends StatelessWidget {
 
   Padding _buildAttechmentsField(AddTaskController controller) {
     return Padding(
-      padding: PaddingConstants.bottom24,
+      padding: PaddingConstant.bottom24,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Attachments', style: TextStyleConstants.bodyMedium),
+          const Text('Attachments', style: TextStyleConstant.bodyMedium),
           const SizedBox(height: 8),
           SizedBox(
             height: controller.attachments.isEmpty ? 50 : 105,
@@ -164,8 +164,8 @@ class AddTaskScreen extends StatelessWidget {
     AddTaskController controller,
   ) {
     return Chip(
-      label: Text(attachment.name, style: TextStyleConstants.bodySmall),
-      backgroundColor: ColorConstants.secondaryColor.withOpacity(0.1),
+      label: Text(attachment.name, style: TextStyleConstant.bodySmall),
+      backgroundColor: ColorConstant.secondaryColor.withOpacity(0.1),
       deleteIcon: const Icon(Icons.close),
       onDeleted: () => controller.removeAttachment(attachment),
     );
@@ -192,11 +192,11 @@ class AddTaskScreen extends StatelessWidget {
             itemCount: controller.notes.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: PaddingConstants.bottom8,
+                padding: PaddingConstant.bottom8,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: ColorConstants.secondaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadiusConstants.borderRadius12,
+                    color: ColorConstant.secondaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadiusConstant.borderRadius12,
                   ),
                   child: Row(
                     children: [
@@ -207,7 +207,7 @@ class AddTaskScreen extends StatelessWidget {
                       Expanded(
                         child: Text(
                           controller.notes[index],
-                          style: TextStyleConstants.bodySmall,
+                          style: TextStyleConstant.bodySmall,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -223,7 +223,7 @@ class AddTaskScreen extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: PaddingConstants.bottom8,
+          padding: PaddingConstant.bottom8,
           child: IconButton(
             onPressed: controller.addNote,
             icon: const Icon(Icons.add),
@@ -243,16 +243,15 @@ class AddTaskScreen extends StatelessWidget {
     void Function(String)? onFieldSubmitted,
   }) {
     return Padding(
-      padding: title == 'Notes'
-          ? PaddingConstants.bottom8
-          : PaddingConstants.bottom24,
+      padding:
+          title == 'Notes' ? PaddingConstant.bottom8 : PaddingConstant.bottom24,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: TextStyleConstants.bodyMedium),
+          Text(title, style: TextStyleConstant.bodyMedium),
           const SizedBox(height: 8),
           TextFormField(
-            style: TextStyleConstants.bodySmall,
+            style: TextStyleConstant.bodySmall,
             minLines: minLines,
             maxLines: maxLines,
             controller: controller,
@@ -261,7 +260,7 @@ class AddTaskScreen extends StatelessWidget {
             decoration: InputDecoration(
               hintText: hintText,
               border: const OutlineInputBorder(
-                borderRadius: BorderRadiusConstants.borderRadius12,
+                borderRadius: BorderRadiusConstant.borderRadius12,
               ),
             ),
           ),
@@ -277,11 +276,11 @@ class AddTaskScreen extends StatelessWidget {
     String? Function(String?)? validator,
   ) {
     return Padding(
-      padding: PaddingConstants.bottom24,
+      padding: PaddingConstant.bottom24,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyleConstants.bodyMedium),
+          Text(label, style: TextStyleConstant.bodyMedium),
           const SizedBox(height: 8),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,19 +293,19 @@ class AddTaskScreen extends StatelessWidget {
                 child: InkWell(
                   onTap: controller.pickDate,
                   child: TextFormField(
-                    style: TextStyleConstants.bodySmall,
+                    style: TextStyleConstant.bodySmall,
                     controller: controller.taskDateController,
                     validator: validator,
                     enabled: false,
                     decoration: InputDecoration(
                       hintText: hintText,
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadiusConstants.borderRadius12,
+                        borderRadius: BorderRadiusConstant.borderRadius12,
                       ),
                       disabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadiusConstants.borderRadius12,
+                        borderRadius: BorderRadiusConstant.borderRadius12,
                         borderSide:
-                            BorderSide(color: ColorConstants.secondaryColor),
+                            BorderSide(color: ColorConstant.secondaryColor),
                       ),
                     ),
                   ),
@@ -321,22 +320,22 @@ class AddTaskScreen extends StatelessWidget {
 
   Padding _buildPrioritySelector(AddTaskController controller) {
     return Padding(
-      padding: PaddingConstants.bottom24,
+      padding: PaddingConstant.bottom24,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'Priority',
-            style: TextStyleConstants.bodyMedium,
+            style: TextStyleConstant.bodyMedium,
           ),
           const SizedBox(height: 8),
           Container(
             width: double.infinity,
             height: 60,
             decoration: BoxDecoration(
-              color: ColorConstants.primaryColor,
-              borderRadius: BorderRadiusConstants.borderRadius12,
-              border: Border.all(color: ColorConstants.secondaryColor),
+              color: ColorConstant.primaryColor,
+              borderRadius: BorderRadiusConstant.borderRadius12,
+              border: Border.all(color: ColorConstant.secondaryColor),
             ),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -370,7 +369,7 @@ class AddTaskScreen extends StatelessWidget {
         ),
       ),
       onChanged: controller.pickPriority,
-      child: Text(value.value, style: TextStyleConstants.bodySmall),
+      child: Text(value.value, style: TextStyleConstant.bodySmall),
     );
   }
 
@@ -378,7 +377,7 @@ class AddTaskScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Tags', style: TextStyleConstants.bodyMedium),
+        const Text('Tags', style: TextStyleConstant.bodyMedium),
         const SizedBox(height: 8),
         SingleChildScrollView(
           child: Column(
@@ -408,8 +407,8 @@ class AddTaskScreen extends StatelessWidget {
 
   Widget _buildTagChip(TagModel tag, AddTaskController controller) {
     return Chip(
-      label: Text(tag.name, style: TextStyleConstants.bodySmall),
-      backgroundColor: ColorConstants.secondaryColor.withOpacity(0.1),
+      label: Text(tag.name, style: TextStyleConstant.bodySmall),
+      backgroundColor: ColorConstant.secondaryColor.withOpacity(0.1),
       deleteIcon: const Icon(Icons.close),
       onDeleted: () => controller.removeTag(tag),
     );
@@ -421,7 +420,7 @@ class AddTaskScreen extends StatelessWidget {
       items: controller.tags
           .map((tag) => DropdownMenuItem<TagModel>(
                 value: tag,
-                child: Text(tag.name, style: TextStyleConstants.bodySmall),
+                child: Text(tag.name, style: TextStyleConstant.bodySmall),
               ))
           .toList()
         ..add(
@@ -429,7 +428,7 @@ class AddTaskScreen extends StatelessWidget {
             value: null,
             child: Text(
               'Add Tag',
-              style: TextStyleConstants.bodySmall,
+              style: TextStyleConstant.bodySmall,
             ),
           ),
         ),
@@ -484,7 +483,7 @@ class AddTaskScreen extends StatelessWidget {
       },
       hint: const Text(
         'Select or add tag',
-        style: TextStyleConstants.bodySmall,
+        style: TextStyleConstant.bodySmall,
       ),
     );
   }

@@ -25,17 +25,17 @@ class RegisterScreen extends StatelessWidget {
 
   Scaffold _buildScaffold(RegisterController controller) {
     return Scaffold(
-      appBar: AppBar(title: const Text(StringConstants.appName)),
+      appBar: AppBar(title: const Text(StringConstant.appName)),
       body: _buildBody(controller),
     );
   }
 
   Padding _buildBody(RegisterController controller) {
     return Padding(
-      padding: PaddingConstants.all16,
+      padding: PaddingConstant.all16,
       child: SingleChildScrollView(
         child: SizedBox(
-          height: DoubleConstants.calculateAvailableScreenHeight,
+          height: DoubleConstant.calculateAvailableScreenHeight,
           child: Column(
             children: [
               _buildForm(controller),
@@ -58,24 +58,24 @@ class RegisterScreen extends StatelessWidget {
             child: Column(
               children: [
                 const Text(
-                  StringConstants.signup,
-                  style: TextStyleConstants.titleMediumBold,
+                  StringConstant.signup,
+                  style: TextStyleConstant.titleMediumBold,
                 ),
                 const SizedBox(height: 16),
                 CustomTextFormField(
                   controller: controller.fullNameController,
-                  hintText: StringConstants.fullNameHintText,
+                  hintText: StringConstant.fullNameHintText,
                   validator: CustomValidator().validateFullName,
                 ),
                 CustomTextFormField(
                   controller: controller.emailController,
-                  hintText: StringConstants.emailHintText,
+                  hintText: StringConstant.emailHintText,
                   validator: CustomValidator().validateEmail,
                 ),
                 Obx(
                   () => CustomTextFormField(
                     controller: controller.passwordController,
-                    hintText: StringConstants.passwordHintText,
+                    hintText: StringConstant.passwordHintText,
                     validator: CustomValidator().validatePassword,
                     isObscureText: true,
                     toggleVisibility: controller.togglePasswordVisibility,
@@ -86,7 +86,7 @@ class RegisterScreen extends StatelessWidget {
                   () => CustomTextFormField(
                     controller: controller.confirmPasswordController,
                     confirmPasswordController: controller.passwordController,
-                    hintText: StringConstants.confirmPasswordHintText,
+                    hintText: StringConstant.confirmPasswordHintText,
                     validator: CustomValidator().validateConfirmPassword,
                     isObscureText: true,
                     toggleVisibility:
@@ -110,13 +110,13 @@ class RegisterScreen extends StatelessWidget {
             onPressed: controller.isLoading ? () {} : controller.submit,
             child: controller.isLoading
                 ? const CircularProgressIndicator()
-                : const Text(StringConstants.signupButton),
+                : const Text(StringConstant.signupButton),
           ),
         ),
         const CustomDivider(),
         ElevatedButton(
           onPressed: controller.goToLogin,
-          child: const Text(StringConstants.loginButtonInRegister),
+          child: const Text(StringConstant.loginButtonInRegister),
         ),
       ],
     );

@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 
 import '../../utils/constants/color.dart';
 import '../../utils/constants/padding.dart';
+import '../../utils/constants/text_style.dart';
 import '../../utils/route_names.dart';
 import '../../widgets/tasks_list_view.dart';
 import 'home_controller.dart';
+import 'home_widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -39,8 +41,8 @@ class HomeScreen extends StatelessWidget {
   FloatingActionButton _buildFloatingActionButton() {
     return FloatingActionButton(
       onPressed: () => Get.toNamed(RouteName.addTask.name),
-      backgroundColor: ColorConstants.onPrimary,
-      foregroundColor: ColorConstants.secondaryColor,
+      backgroundColor: ColorConstant.onPrimary,
+      foregroundColor: ColorConstant.secondaryColor,
       shape: const CircleBorder(),
       child: const Icon(Icons.add, size: 30),
     );
@@ -53,7 +55,7 @@ class HomeScreen extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(
             Icons.home,
-            color: ColorConstants.secondaryColor,
+            color: ColorConstant.secondaryColor,
             size: 30,
           ),
           label: 'Home',
@@ -61,7 +63,7 @@ class HomeScreen extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(
             Icons.person,
-            color: ColorConstants.secondaryColor,
+            color: ColorConstant.secondaryColor,
             size: 30,
           ),
           label: 'Profile',
@@ -77,15 +79,36 @@ class HomeScreen extends StatelessWidget {
 
   Padding _buildBody(HomeController controller) {
     return Padding(
-      padding: PaddingConstants.all16,
+      padding: PaddingConstant.all16,
       child: Obx(
-        () => controller.isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : TasksListView(
-                controller: controller,
-                tasks: controller.tasks,
-              ),
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Tasks', style: TextStyleConstant.bodySmallBold),
+            const SizedBox(height: 8),
+            _buildSearchRow(controller),
+            HomeWidgets.buildTabBar(controller),
+            Expanded(
+              child: controller.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : TasksListView(
+                      controller: controller,
+                      tasks: controller.filteredTasks,
+                    ),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  Row _buildSearchRow(HomeController controller) {
+    return Row(
+      children: [
+        HomeWidgets.buildSearchTextFormField(controller),
+        const SizedBox(width: 8),
+        HomeWidgets.buildFilterButton(controller),
+      ],
     );
   }
 }

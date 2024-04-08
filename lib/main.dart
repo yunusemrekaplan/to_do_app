@@ -24,16 +24,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Task Master',
       theme: CustomTheme.themeData,
-      getPages: [
-        GetPage(name: RouteName.initial.name, page: () => Pages.initial),
-        GetPage(name: RouteName.splash.name, page: () => Pages.splash),
-        GetPage(name: RouteName.login.name, page: () => Pages.login),
-        GetPage(name: RouteName.register.name, page: () => Pages.register),
-        GetPage(name: RouteName.home.name, page: () => Pages.home),
-        GetPage(name: RouteName.addTask.name, page: () => Pages.addTask),
-        GetPage(name: RouteName.detailTask.name, page: () => Pages.detailTask),
-        GetPage(name: RouteName.profile.name, page: () => Pages.profile)
-      ],
+      getPages: Pages.pages,
       initialRoute: RouteName.initial.name,
     );
   }

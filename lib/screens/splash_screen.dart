@@ -13,18 +13,18 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(StringConstants.appName)),
+      appBar: AppBar(title: const Text(StringConstant.appName)),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
     return Padding(
-      padding: PaddingConstants.all16,
+      padding: PaddingConstant.all16,
       child: SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            minHeight: DoubleConstants.calculateAvailableScreenHeight,
+            minHeight: DoubleConstant.calculateAvailableScreenHeight,
           ),
           child: IntrinsicHeight(
             child: Column(
@@ -43,24 +43,24 @@ class SplashScreen extends StatelessWidget {
 
   Widget _buildSplashImage() {
     return Center(
-      child: Image.asset(ImageConstants.splash),
+      child: Image.asset(ImageConstant.splash),
     );
   }
 
   Widget _buildSplashDescription() {
     return const Padding(
-      padding: PaddingConstants.horizontal8,
+      padding: PaddingConstant.horizontal8,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            StringConstants.splashDescriptionTitle,
-            style: TextStyleConstants.titleLargeBold,
+            StringConstant.splashDescriptionTitle,
+            style: TextStyleConstant.titleLargeBold,
           ),
           SizedBox(height: 8),
           Text(
-            StringConstants.splashDescription,
-            style: TextStyleConstants.bodyMedium,
+            StringConstant.splashDescription,
+            style: TextStyleConstant.bodyMedium,
           ),
         ],
       ),
@@ -72,12 +72,12 @@ class SplashScreen extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () => CustomNavigator.goToRegisterScreen,
-          child: const Text(StringConstants.startButton),
+          child: const Text(StringConstant.startButton),
         ),
         const CustomDivider(),
         ElevatedButton(
           onPressed: () => CustomNavigator.goToLogInScreen,
-          child: const Text(StringConstants.loginButtonInSplash),
+          child: const Text(StringConstant.loginButtonInSplash),
         ),
       ],
     );

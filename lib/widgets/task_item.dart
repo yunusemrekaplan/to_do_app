@@ -24,14 +24,14 @@ class TaskItem extends StatelessWidget {
       child: Container(
         height: 140,
         decoration: BoxDecoration(
-          color: ColorConstants.onPrimary,
+          color: ColorConstant.onPrimary,
           border: Border.all(
-            color: ColorConstants.secondaryColor.withOpacity(0.1),
+            color: ColorConstant.secondaryColor.withOpacity(0.1),
           ),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Padding(
-          padding: PaddingConstants.all8,
+          padding: PaddingConstant.all8,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -44,13 +44,13 @@ class TaskItem extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         task.title,
-                        style: TextStyleConstants.bodyLargeBold,
+                        style: TextStyleConstant.bodyLargeBold,
                         overflow: TextOverflow.ellipsis,
                       ),
                       task.dueDate != null
                           ? Text(
                               '${DateFormat.d().format(task.dueDate!)} ${DateFormat.MMM().format(task.dueDate!)}, ${DateFormat.jm().format(task.dueDate!)}',
-                              style: TextStyleConstants.bodySmall,
+                              style: TextStyleConstant.bodySmall,
                             )
                           : const SizedBox.shrink(),
                     ],
@@ -85,18 +85,18 @@ class TaskItem extends StatelessWidget {
                                       },
                                       child: Container(
                                         height: 32,
-                                        margin: PaddingConstants.right8,
-                                        padding: PaddingConstants.all4,
+                                        margin: PaddingConstant.right8,
+                                        padding: PaddingConstant.all4,
                                         decoration: BoxDecoration(
-                                          color: ColorConstants.secondaryColor,
+                                          color: ColorConstant.secondaryColor,
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
                                         child: Text(
                                           tag.name,
-                                          style: TextStyleConstants.bodySmall
+                                          style: TextStyleConstant.bodySmall
                                               .copyWith(
-                                            color: ColorConstants.onPrimary,
+                                            color: ColorConstant.onPrimary,
                                           ),
                                         ),
                                       ),
@@ -109,7 +109,7 @@ class TaskItem extends StatelessWidget {
                   const SizedBox(width: 16),
                   Text(
                     task.priority.value,
-                    style: TextStyleConstants.bodySmallBold,
+                    style: TextStyleConstant.bodySmallBold,
                   ),
                   const SizedBox(width: 16),
                 ],

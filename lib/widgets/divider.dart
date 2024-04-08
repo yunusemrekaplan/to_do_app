@@ -10,24 +10,24 @@ class CustomDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: PaddingConstants.all8,
+      padding: PaddingConstant.all8,
       child: Row(
         children: [
           Expanded(
             child: Divider(
-              color: ColorConstants.secondaryColor,
+              color: ColorConstant.secondaryColor,
             ),
           ),
           Padding(
-            padding: PaddingConstants.horizontal16,
+            padding: PaddingConstant.horizontal16,
             child: Text(
               'or',
-              style: TextStyleConstants.bodySmall,
+              style: TextStyleConstant.bodySmall,
             ),
           ),
           Expanded(
             child: Divider(
-              color: ColorConstants.secondaryColor,
+              color: ColorConstant.secondaryColor,
             ),
           ),
         ],

@@ -29,7 +29,36 @@ class TaskRepository {
 
   Future<List<TaskModel>> getTasks() async {
     _tasks.value = await _taskService.getTasks();
-    return _tasks;
+    return tasks;
+  }
+
+  Future<List<TaskModel>> getIncompleteTasks() async {
+    List<TaskModel> newTasks = [];
+    newTasks = await _taskService.getFilteredTasks(
+      field: 'isCompleted',
+      value: false,
+    );
+
+    return newTasks;
+  }
+
+  Future<List<TaskModel>> getCompletedTasks() async {
+    List<TaskModel> newTasks = [];
+    newTasks = await _taskService.getFilteredTasks(
+      field: 'isCompleted',
+      value: true,
+    );
+
+    return newTasks;
+  }
+
+  Future<List<TaskModel>> getTasksWithMultipleFilters({
+    required Map<String, dynamic> filters,
+  }) async {
+    List<TaskModel> newTasks = [];
+    newTasks = await _taskService.getTasksWithMultipleFilters(filters: filters);
+
+    return newTasks;
   }
 
   Future<bool> updateTask(TaskModel task) async {

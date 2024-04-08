@@ -30,10 +30,10 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: PaddingConstants.bottom16,
+      padding: PaddingConstant.bottom16,
       child: TextFormField(
         controller: controller,
-        style: TextStyleConstants.textField,
+        style: TextStyleConstant.textField,
         validator: (value) {
           if (confirmPasswordController != null) {
             return validator(value, confirmPasswordController!.text);
@@ -43,7 +43,7 @@ class CustomTextFormField extends StatelessWidget {
         },
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyleConstants.textFieldHint,
+          hintStyle: TextStyleConstant.textFieldHint,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
           ),

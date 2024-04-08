@@ -13,16 +13,18 @@ class TaskService {
 
   final _firestoreService = FirestoreService();
 
+  String get path => 'users/${UserModel.currentUser!.userUid}/tasks';
+
   Future<TaskModel?> addTask(TaskModel task) async {
     TaskModel? newTask;
 
     final docRef = await _firestoreService.createDocument(
-      path: 'users/${UserModel.currentUser!.userUid}/tasks',
+      path: path,
     );
     if (docRef != null) {
       task.setUid = docRef.id;
       await _firestoreService.addDocument(
-        collection: 'users/${UserModel.currentUser!.userUid}/tasks',
+        collection: path,
         uid: task.uid!,
         data: task.toJson(),
       );
@@ -36,8 +38,7 @@ class TaskService {
   Future<List<TaskModel>> getTasks() async {
     List<TaskModel> tasks = <TaskModel>[];
 
-    final docs = await _firestoreService.getAll(
-        collection: 'users/${UserModel.currentUser!.userUid}/tasks');
+    final docs = await _firestoreService.getAll(collection: path);
     if (docs != null) {
       tasks = docs.map((doc) => TaskModel.fromJson(doc)).toList();
     } else {
@@ -46,11 +47,51 @@ class TaskService {
     return tasks;
   }
 
+  Future<List<TaskModel>> getFilteredTasks({
+    required String field,
+    required dynamic value,
+  }) async {
+    List<TaskModel> tasks = <TaskModel>[];
+
+    final docs = await _firestoreService.getFilteredDocuments(
+      collection: path,
+      field: field,
+      value: value,
+    );
+
+    if (docs != null) {
+      tasks = docs.map((doc) => TaskModel.fromJson(doc)).toList();
+    } else {
+      log('TaskService.getFilteredTasks: docs is null');
+    }
+
+    return tasks;
+  }
+
+  Future<List<TaskModel>> getTasksWithMultipleFilters({
+    required Map<String, dynamic> filters,
+  }) async {
+    List<TaskModel> tasks = <TaskModel>[];
+
+    final docs = await _firestoreService.getDocumentsWithMultipleFilters(
+      collection: path,
+      filters: filters,
+    );
+
+    if (docs != null) {
+      tasks = docs.map((doc) => TaskModel.fromJson(doc)).toList();
+    } else {
+      log('TaskService.getDocumentsWithMultipleFilters: docs is null');
+    }
+
+    return tasks;
+  }
+
   Future<TaskModel?> updateTask(TaskModel task) async {
     TaskModel? updatedTask;
 
     await _firestoreService.updateDocument(
-      collection: 'users/${UserModel.currentUser!.userUid}/tasks',
+      collection: path,
       uid: task.uid!,
       data: task.toJson(),
     );

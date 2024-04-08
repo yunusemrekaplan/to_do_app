@@ -44,21 +44,6 @@ class FirestoreService {
     return success;
   }
 
-  Future<List<Map<String, dynamic>>?> getAll({
-    required String collection,
-  }) async {
-    List<Map<String, dynamic>>? data;
-    try {
-      log(collection);
-      final collectionRef = _db.collection(collection);
-      final querySnapshot = await collectionRef.get();
-      data = querySnapshot.docs.map((doc) => doc.data()).toList();
-    } on Exception catch (e) {
-      log('FirestoreService.getAll: $e');
-    }
-    return data;
-  }
-
   Future<Map<String, dynamic>?> getDocumentById({
     required String collection,
     required String uid,
@@ -70,6 +55,21 @@ class FirestoreService {
       data = docSnapshot.data();
     } on Exception catch (e) {
       log('FirestoreService.getDocumentById: $e');
+    }
+    return data;
+  }
+
+  Future<List<Map<String, dynamic>>?> getAll({
+    required String collection,
+  }) async {
+    List<Map<String, dynamic>>? data;
+    try {
+      log(collection);
+      final collectionRef = _db.collection(collection);
+      final querySnapshot = await collectionRef.get();
+      data = querySnapshot.docs.map((doc) => doc.data()).toList();
+    } on Exception catch (e) {
+      log('FirestoreService.getAll: $e');
     }
     return data;
   }
@@ -87,6 +87,27 @@ class FirestoreService {
       data = querySnapshot.docs.map((doc) => doc.data()).toList();
     } on Exception catch (e) {
       log('FirestoreService.getFilteredDocuments: $e');
+    }
+    return data;
+  }
+
+  Future<List<Map<String, dynamic>>?> getDocumentsWithMultipleFilters({
+    required String collection,
+    required Map<String, dynamic> filters,
+  }) async {
+    List<Map<String, dynamic>>? data;
+    try {
+      Query query = _db.collection(collection);
+      filters.forEach((key, value) {
+        query = query.where(key, isEqualTo: value);
+      });
+      final querySnapshot = await query.get();
+      data = querySnapshot.docs
+          .map((doc) => doc.data())
+          .cast<Map<String, dynamic>>()
+          .toList();
+    } on Exception catch (e) {
+      log('FirestoreService.getDocumentsWithMultipleFilters: $e');
     }
     return data;
   }

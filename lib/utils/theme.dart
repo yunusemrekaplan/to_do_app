@@ -6,27 +6,27 @@ import 'constants/text_style.dart';
 class CustomTheme {
   static ThemeData themeData = ThemeData(
     useMaterial3: true,
-    scaffoldBackgroundColor: ColorConstants.backgroundColor,
+    scaffoldBackgroundColor: ColorConstant.backgroundColor,
     appBarTheme: const AppBarTheme(
-      backgroundColor: ColorConstants.backgroundColor,
+      backgroundColor: ColorConstant.backgroundColor,
       elevation: 0,
-      titleTextStyle: TextStyleConstants.appBarTitle,
+      titleTextStyle: TextStyleConstant.appBarTitle,
       centerTitle: true,
     ),
-    iconTheme: const IconThemeData(color: ColorConstants.secondaryColor),
+    iconTheme: const IconThemeData(color: ColorConstant.secondaryColor),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(
-          ColorConstants.primaryColor,
+          ColorConstant.primaryColor,
         ),
         foregroundColor: MaterialStateProperty.all<Color>(
-          ColorConstants.secondaryColor,
+          ColorConstant.secondaryColor,
         ),
         textStyle: MaterialStateProperty.all<TextStyle>(
-          TextStyleConstants.textFieldLabel,
+          TextStyleConstant.textFieldLabel,
         ),
         side: MaterialStateProperty.all<BorderSide>(
-          const BorderSide(color: ColorConstants.secondaryColor, width: 1.5),
+          const BorderSide(color: ColorConstant.secondaryColor, width: 1.5),
         ),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(

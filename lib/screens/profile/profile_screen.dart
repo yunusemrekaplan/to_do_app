@@ -43,7 +43,7 @@ class ProfileScreen extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(
             Icons.home,
-            color: ColorConstants.secondaryColor,
+            color: ColorConstant.secondaryColor,
             size: 30,
           ),
           label: 'Home',
@@ -51,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(
             Icons.person,
-            color: ColorConstants.secondaryColor,
+            color: ColorConstant.secondaryColor,
             size: 30,
           ),
           label: 'Profile',
@@ -67,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
 
   Widget _buildBody(ProfileController controller) {
     return Padding(
-      padding: PaddingConstants.all16,
+      padding: PaddingConstant.all16,
       child: Obx(
         () => controller.isLoading
             ? const Center(child: CircularProgressIndicator())
@@ -77,11 +77,11 @@ class ProfileScreen extends StatelessWidget {
                     width: double.infinity,
                     child: CircleAvatar(
                       radius: 48,
-                      backgroundColor: ColorConstants.secondaryColor,
+                      backgroundColor: ColorConstant.secondaryColor,
                       child: Icon(
                         Icons.person,
                         size: 48,
-                        color: ColorConstants.primaryColor,
+                        color: ColorConstant.primaryColor,
                       ),
                     ),
                   ),
@@ -91,7 +91,7 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       Text(
                         UserModel.currentUser!.fullName,
-                        style: TextStyleConstants.bodyMediumBold,
+                        style: TextStyleConstant.bodyMediumBold,
                       ),
                     ],
                   ),
@@ -101,18 +101,18 @@ class ProfileScreen extends StatelessWidget {
                       width: double.infinity,
                       decoration: const BoxDecoration(
                         //color: ColorConstants.onPrimary,
-                        borderRadius: BorderRadiusConstants.borderRadius12,
+                        borderRadius: BorderRadiusConstant.borderRadius12,
                       ),
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
                             Padding(
-                              padding: PaddingConstants.all16,
+                              padding: PaddingConstant.all16,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   InkWell(
-                                    splashColor: ColorConstants.onPrimary,
+                                    splashColor: ColorConstant.onPrimary,
                                     onTap: () {
                                       log('onTap');
                                     },
@@ -123,7 +123,7 @@ class ProfileScreen extends StatelessWidget {
                                         Text(
                                           'Full name',
                                           style:
-                                              TextStyleConstants.bodyMediumBold,
+                                              TextStyleConstant.bodyMediumBold,
                                         ),
                                       ],
                                     ),
@@ -132,12 +132,12 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: PaddingConstants.all16,
+                              padding: PaddingConstant.all16,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   InkWell(
-                                    splashColor: ColorConstants.onPrimary,
+                                    splashColor: ColorConstant.onPrimary,
                                     onTap: () {
                                       log('onTap');
                                     },
@@ -148,7 +148,7 @@ class ProfileScreen extends StatelessWidget {
                                         Text(
                                           'Email',
                                           style:
-                                              TextStyleConstants.bodyMediumBold,
+                                              TextStyleConstant.bodyMediumBold,
                                         ),
                                       ],
                                     ),
@@ -157,12 +157,12 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: PaddingConstants.all16,
+                              padding: PaddingConstant.all16,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   InkWell(
-                                    splashColor: ColorConstants.onPrimary,
+                                    splashColor: ColorConstant.onPrimary,
                                     onTap: () {
                                       log('onTap');
                                     },
@@ -173,7 +173,7 @@ class ProfileScreen extends StatelessWidget {
                                         Text(
                                           'Password',
                                           style:
-                                              TextStyleConstants.bodyMediumBold,
+                                              TextStyleConstant.bodyMediumBold,
                                         ),
                                       ],
                                     ),
@@ -182,12 +182,12 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: PaddingConstants.all16,
+                              padding: PaddingConstant.all16,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   InkWell(
-                                    splashColor: ColorConstants.onPrimary,
+                                    splashColor: ColorConstant.onPrimary,
                                     onTap: controller.signOut,
                                     child: const Row(
                                       children: [
@@ -196,7 +196,7 @@ class ProfileScreen extends StatelessWidget {
                                         Text(
                                           'Log Out',
                                           style:
-                                              TextStyleConstants.bodyMediumBold,
+                                              TextStyleConstant.bodyMediumBold,
                                         ),
                                       ],
                                     ),

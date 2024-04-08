@@ -47,7 +47,7 @@ class TaskDetailScreen extends StatelessWidget {
 
   Widget _buildBody(TaskDetailController controller) {
     return Padding(
-      padding: PaddingConstants.all16,
+      padding: PaddingConstant.all16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -71,13 +71,13 @@ class TaskDetailScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Task Detail', style: TextStyleConstants.bodyMediumBold),
+        const Text('Task Detail', style: TextStyleConstant.bodyMediumBold),
         const SizedBox(height: 16),
         Container(
-          padding: PaddingConstants.all16,
+          padding: PaddingConstant.all16,
           decoration: const BoxDecoration(
-            borderRadius: BorderRadiusConstants.borderRadius12,
-            color: ColorConstants.onPrimary,
+            borderRadius: BorderRadiusConstant.borderRadius12,
+            color: ColorConstant.onPrimary,
           ),
           child: Column(
             children: [
@@ -86,11 +86,11 @@ class TaskDetailScreen extends StatelessWidget {
                 children: [
                   const Text(
                     'Created At: ',
-                    style: TextStyleConstants.bodySmallBold,
+                    style: TextStyleConstant.bodySmallBold,
                   ),
                   Text(
                     DateFormat.yMMMMd().format(controller.task.createdAt),
-                    style: TextStyleConstants.bodySmallBold,
+                    style: TextStyleConstant.bodySmallBold,
                   ),
                 ],
               ),
@@ -101,11 +101,11 @@ class TaskDetailScreen extends StatelessWidget {
                       children: [
                         const Text(
                           'Due Date: ',
-                          style: TextStyleConstants.bodySmallBold,
+                          style: TextStyleConstant.bodySmallBold,
                         ),
                         Text(
                           DateFormat.yMMMMd().format(controller.task.dueDate!),
-                          style: TextStyleConstants.bodySmallBold,
+                          style: TextStyleConstant.bodySmallBold,
                         ),
                       ],
                     )
@@ -116,11 +116,11 @@ class TaskDetailScreen extends StatelessWidget {
                 children: [
                   const Text(
                     'Priority Level: ',
-                    style: TextStyleConstants.bodySmallBold,
+                    style: TextStyleConstant.bodySmallBold,
                   ),
                   Text(
                     controller.task.priority.value,
-                    style: TextStyleConstants.bodySmallBold,
+                    style: TextStyleConstant.bodySmallBold,
                   ),
                 ],
               ),
@@ -130,12 +130,12 @@ class TaskDetailScreen extends StatelessWidget {
                 children: [
                   const Text(
                     'Is Completed: ',
-                    style: TextStyleConstants.bodySmallBold,
+                    style: TextStyleConstant.bodySmallBold,
                   ),
                   Obx(
                     () => Text(
                       controller.isCompleted.value ? 'Yes' : 'No',
-                      style: TextStyleConstants.bodySmallBold,
+                      style: TextStyleConstant.bodySmallBold,
                     ),
                   ),
                   /*
@@ -161,21 +161,21 @@ class TaskDetailScreen extends StatelessWidget {
       children: [
         const Text(
           'Task Description',
-          style: TextStyleConstants.bodyMediumBold,
+          style: TextStyleConstant.bodyMediumBold,
         ),
         const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
               child: Container(
-                padding: PaddingConstants.all16,
+                padding: PaddingConstant.all16,
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadiusConstants.borderRadius12,
-                  color: ColorConstants.onPrimary,
+                  borderRadius: BorderRadiusConstant.borderRadius12,
+                  color: ColorConstant.onPrimary,
                 ),
                 child: Text(
                   controller.task.description!,
-                  style: TextStyleConstants.bodySmallBold,
+                  style: TextStyleConstant.bodySmallBold,
                 ),
               ),
             ),
@@ -190,16 +190,16 @@ class TaskDetailScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Task Notes', style: TextStyleConstants.bodyMediumBold),
+        const Text('Task Notes', style: TextStyleConstant.bodyMediumBold),
         const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
               child: Container(
-                padding: PaddingConstants.all16,
+                padding: PaddingConstant.all16,
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadiusConstants.borderRadius12,
-                  color: ColorConstants.onPrimary,
+                  borderRadius: BorderRadiusConstant.borderRadius12,
+                  color: ColorConstant.onPrimary,
                 ),
                 child: Column(
                   children: controller.task.notes != null
@@ -228,17 +228,16 @@ class TaskDetailScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Task Attachments',
-            style: TextStyleConstants.bodyMediumBold),
+        const Text('Task Attachments', style: TextStyleConstant.bodyMediumBold),
         const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
               child: Container(
-                padding: PaddingConstants.all16,
+                padding: PaddingConstant.all16,
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadiusConstants.borderRadius12,
-                  color: ColorConstants.onPrimary,
+                  borderRadius: BorderRadiusConstant.borderRadius12,
+                  color: ColorConstant.onPrimary,
                 ),
                 child: Column(
                   children: controller.task.attachments
@@ -265,22 +264,22 @@ class TaskDetailScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Task Actions', style: TextStyleConstants.bodyMediumBold),
+        const Text('Task Actions', style: TextStyleConstant.bodyMediumBold),
         const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: ColorConstants.secondaryColor),
-                  borderRadius: BorderRadiusConstants.borderRadius12,
+                  border: Border.all(color: ColorConstant.secondaryColor),
+                  borderRadius: BorderRadiusConstant.borderRadius12,
                 ),
                 child: Row(
                   children: [
                     IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
                     const Text(
                       'Edit Task',
-                      style: TextStyleConstants.bodySmallBold,
+                      style: TextStyleConstant.bodySmallBold,
                     ),
                   ],
                 ),
@@ -290,8 +289,8 @@ class TaskDetailScreen extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: ColorConstants.secondaryColor),
-                  borderRadius: BorderRadiusConstants.borderRadius12,
+                  border: Border.all(color: ColorConstant.secondaryColor),
+                  borderRadius: BorderRadiusConstant.borderRadius12,
                 ),
                 child: Row(
                   children: [
@@ -301,7 +300,7 @@ class TaskDetailScreen extends StatelessWidget {
                     ),
                     const Text(
                       'Delete Task',
-                      style: TextStyleConstants.bodySmallBold,
+                      style: TextStyleConstant.bodySmallBold,
                     ),
                   ],
                 ),
@@ -316,8 +315,8 @@ class TaskDetailScreen extends StatelessWidget {
               child: Container(
                 height: 70,
                 decoration: BoxDecoration(
-                  border: Border.all(color: ColorConstants.secondaryColor),
-                  borderRadius: BorderRadiusConstants.borderRadius12,
+                  border: Border.all(color: ColorConstant.secondaryColor),
+                  borderRadius: BorderRadiusConstant.borderRadius12,
                 ),
                 child: Row(
                   children: [
@@ -328,7 +327,7 @@ class TaskDetailScreen extends StatelessWidget {
                     const Expanded(
                       child: Text(
                         'Turn Off Notifications',
-                        style: TextStyleConstants.bodySmallBold,
+                        style: TextStyleConstant.bodySmallBold,
                       ),
                     ),
                   ],
@@ -340,8 +339,8 @@ class TaskDetailScreen extends StatelessWidget {
               child: Container(
                 height: 70,
                 decoration: BoxDecoration(
-                  border: Border.all(color: ColorConstants.secondaryColor),
-                  borderRadius: BorderRadiusConstants.borderRadius12,
+                  border: Border.all(color: ColorConstant.secondaryColor),
+                  borderRadius: BorderRadiusConstant.borderRadius12,
                 ),
                 child: Row(
                   children: [
@@ -352,7 +351,7 @@ class TaskDetailScreen extends StatelessWidget {
                     const Expanded(
                       child: Text(
                         'Mark as Completed',
-                        style: TextStyleConstants.bodySmallBold,
+                        style: TextStyleConstant.bodySmallBold,
                       ),
                     ),
                   ],
@@ -373,13 +372,13 @@ class TaskDetailScreen extends StatelessWidget {
             Expanded(
               child: Text(
                 note,
-                style: TextStyleConstants.bodySmallBold,
+                style: TextStyleConstant.bodySmallBold,
               ),
             ),
             IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
           ],
         ),
-        const Divider(color: ColorConstants.secondaryColor, height: 32),
+        const Divider(color: ColorConstant.secondaryColor, height: 32),
       ],
     );
   }
@@ -392,7 +391,7 @@ class TaskDetailScreen extends StatelessWidget {
             Expanded(
               child: Text(
                 attachment.name,
-                style: TextStyleConstants.bodySmallBold,
+                style: TextStyleConstant.bodySmallBold,
               ),
             ),
             IconButton(

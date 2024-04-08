@@ -1,4 +1,4 @@
-class StringConstants {
+class StringConstant {
   static const appName = 'Task Manager';
   static const splashDescriptionTitle = 'Create task efficiently';
   static const splashDescription = 'Easily add, edit and delete tasks,'
