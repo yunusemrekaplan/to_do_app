@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +20,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       init: _homeController,
+      id: RouteName.home,
       initState: (_) => _homeController.init(),
       builder: (controller) {
         return _buildScaffold(controller);
@@ -27,54 +30,14 @@ class HomeScreen extends StatelessWidget {
 
   Scaffold _buildScaffold(HomeController controller) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Task Manager'),
-        centerTitle: true,
-      ),
-      floatingActionButton: _buildFloatingActionButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: _buildBottomNavigationBar(),
+      appBar: AppBar(title: const Text('Task Manager')),
+      bottomNavigationBar: CustomBottomNavigationBar(),
       body: _buildBody(controller),
     );
   }
 
-  FloatingActionButton _buildFloatingActionButton() {
-    return FloatingActionButton(
-      onPressed: () => Get.toNamed(RouteName.addTask.name),
-      backgroundColor: ColorConstant.onPrimary,
-      foregroundColor: ColorConstant.secondaryColor,
-      shape: const CircleBorder(),
-      child: const Icon(Icons.add, size: 30),
-    );
-  }
-
-  BottomNavigationBar _buildBottomNavigationBar() {
-    return BottomNavigationBar(
-      currentIndex: 0,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-            color: ColorConstant.secondaryColor,
-            size: 30,
-          ),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.person,
-            color: ColorConstant.secondaryColor,
-            size: 30,
-          ),
-          label: 'Profile',
-        ),
-      ],
-      onTap: (index) {
-        if (index == 1) {
-          Get.offAllNamed(RouteName.profile.name);
-        }
-      },
-    );
+  CustomBottomNavigationBar _buildBottomNavigationBar() {
+    return CustomBottomNavigationBar();
   }
 
   Padding _buildBody(HomeController controller) {
@@ -109,6 +72,50 @@ class HomeScreen extends StatelessWidget {
         const SizedBox(width: 8),
         HomeWidgets.buildFilterButton(controller),
       ],
+    );
+  }
+}
+
+class CustomBottomNavigationBar extends StatelessWidget {
+  static final CustomBottomNavigationBar _instance =
+      CustomBottomNavigationBar._();
+
+  CustomBottomNavigationBar._();
+
+  factory CustomBottomNavigationBar() => _instance;
+
+  int currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    log('GİRDİ');
+    return BottomNavigationBar(
+      currentIndex: currentIndex,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.home,
+            color: ColorConstant.secondaryColor,
+            size: 30,
+          ),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.person,
+            color: ColorConstant.secondaryColor,
+            size: 30,
+          ),
+          label: 'Profile',
+        ),
+      ],
+      onTap: (index) {
+        currentIndex = index;
+        log(currentIndex.toString());
+        if (index == 1) {
+          //currentIndex = 1;
+        }
+      },
     );
   }
 }

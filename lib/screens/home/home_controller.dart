@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../models/task_model.dart';
 import '../../repo/task_repository.dart';
 import '../../utils/constants/color.dart';
-import '../../widgets/filter_screen/filter_screen.dart';
+import '../filter_screen/filter_screen.dart';
 
 class HomeController extends GetxController {
   final TaskRepository _taskRepository = TaskRepository();

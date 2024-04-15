@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../models/user_model.dart';
@@ -10,6 +9,7 @@ import '../../utils/constants/color.dart';
 import '../../utils/constants/padding.dart';
 import '../../utils/constants/text_style.dart';
 import '../../utils/route_names.dart';
+import '../home/home_screen.dart';
 import 'profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -21,18 +21,16 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(
       init: _profileController,
+      id: RouteName.profile,
       builder: (controller) => _buildScaffold(controller),
     );
   }
 
   Scaffold _buildScaffold(ProfileController controller) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Profile')),
       body: _buildBody(controller),
-      bottomNavigationBar: _buildBottomNavigationBar(),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 
